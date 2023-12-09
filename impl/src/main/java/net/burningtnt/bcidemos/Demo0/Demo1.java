@@ -12,32 +12,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.burningtnt.bcitest;
+package net.burningtnt.bcidemos.Demo0;
 
 import net.burningtnt.bcigenerator.api.BytecodeImpl;
 import net.burningtnt.bcigenerator.api.BytecodeImplError;
 
-public final class Implementation {
-    private Implementation() {
+import java.nio.file.Path;
+
+public final class Demo1 {
+    private Demo1() {
     }
 
     @BytecodeImpl({
             "LABEL METHOD_HEAD",
-            "NEW java/lang/StringBuilder",
-            "DUP",
-            "INVOKESPECIAL Ljava/lang/StringBuilder;<init>()V",
             "ALOAD 0",
-            "INVOKEVIRTUAL Ljava/lang/StringBuilder;append([C)Ljava/lang/StringBuilder;",
-            "LABEL RELEASE_PARAMETER",
+            "ALOAD 1",
+            "INVOKEINTERFACESTATIC Ljava/nio/file/Path;of(Ljava/lang/String;[Ljava/lang/String;)Ljava/nio/file/Path;",
+            "LABEL METHOD_TAIL",
             "ARETURN",
-            "LOCALVARIABLE more [C METHOD_HEAD RELEASE_PARAMETER 0",
-            "MAXS 2 1"
+            "LOCALVARIABLE first Ljava/lang/String; METHOD_HEAD METHOD_TAIL 0",
+            "LOCALVARIABLE further [Ljava/lang/String; METHOD_HEAD METHOD_TAIL 1",
+            "MAXS 2 2"
     })
-    private static StringBuilder doAppend(char[] more) {
+    private static Path getPath(String first, String... further) {
         throw new BytecodeImplError();
     }
 
     public static void main(String[] args) {
-        System.out.println(doAppend("[TEXT]".toCharArray()).toString());
+        System.out.println(getPath("First", "Second", "Third").toString());
     }
 }

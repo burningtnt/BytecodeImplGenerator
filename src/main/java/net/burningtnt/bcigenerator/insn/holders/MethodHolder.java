@@ -27,10 +27,11 @@ public final class MethodHolder {
 
     public static List<LiteralArgumentBuilder<List<IInsn>>> init() {
         return CommandBuilder.ofCommands(
-                CommandBuilder.ofMethodInsn("INVOKEVIRTUAL", Opcodes.INVOKEVIRTUAL),
-                CommandBuilder.ofMethodInsn("INVOKESPECIAL", Opcodes.INVOKESPECIAL),
-                CommandBuilder.ofMethodInsn("INVOKESTATIC", Opcodes.INVOKESTATIC),
-                CommandBuilder.ofMethodInsn("INVOKEINTERFACE", Opcodes.INVOKEINTERFACE)
+                CommandBuilder.ofMethodInsn("INVOKEVIRTUAL", Opcodes.INVOKEVIRTUAL, false),
+                CommandBuilder.ofMethodInsn("INVOKESPECIAL", Opcodes.INVOKESPECIAL, false),
+                CommandBuilder.ofMethodInsn("INVOKESTATIC", Opcodes.INVOKESTATIC, false),
+                CommandBuilder.ofMethodInsn("INVOKEINTERFACE", Opcodes.INVOKEINTERFACE, true),
+                CommandBuilder.ofMethodInsn("INVOKEINTERFACESTATIC", Opcodes.INVOKESTATIC, true)
         );
     }
 }

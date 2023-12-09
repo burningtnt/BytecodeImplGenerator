@@ -9,7 +9,7 @@ import org.objectweb.asm.Opcodes;
 
 import java.util.List;
 
-public class TypeHolder {
+public final class TypeHolder {
     private TypeHolder() {
     }
 

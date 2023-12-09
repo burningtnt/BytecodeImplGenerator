@@ -12,11 +12,12 @@ repositories {
     maven(url = "https://libraries.minecraft.net")
 }
 
-tasks.getByName<JavaCompile>("compileJava") {
-    dependsOn(rootProject.tasks.getByName("compileJava"))
+tasks.compileJava {
+    dependsOn(rootProject.tasks.compileJava)
 
     val bytecodeClasses = listOf(
-            "net/burningtnt/bcitest/Implementation"
+            "net/burningtnt/bcidemos/Demo0/Demo0",
+            "net/burningtnt/bcidemos/Demo0/Demo1"
     )
 
     doLast {

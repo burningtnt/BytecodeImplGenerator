@@ -19,6 +19,7 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.burningtnt.bcigenerator.arguments.JavaDescriptor;
 import net.burningtnt.bcigenerator.arguments.JavaDescriptorArgumentType;
+import net.burningtnt.bcigenerator.arguments.LabelIDArgumentType;
 import net.burningtnt.bcigenerator.insn.CommandBuilder;
 import net.burningtnt.bcigenerator.insn.IInsn;
 import org.objectweb.asm.Label;
@@ -32,28 +33,28 @@ public final class StructureHolder {
     private StructureHolder() {
     }
 
-    private static final class SafeLabel {
+    private static final class ManagedLabel {
         private final Label label;
 
         private boolean defined;
 
-        public SafeLabel(boolean defined) {
+        public ManagedLabel(boolean defined) {
             this.label = new Label();
             this.defined = defined;
         }
     }
 
-    private static final Map<MethodVisitor, Map<String, SafeLabel>> labels = new HashMap<>();
+    private static final Map<MethodVisitor, Map<String, ManagedLabel>> labels = new HashMap<>();
 
     private static Label computeLabel(MethodVisitor mv, String s, boolean defined) {
-        SafeLabel sl = labels.computeIfAbsent(mv, it -> new HashMap<>()).computeIfAbsent(s, it -> new SafeLabel(defined));
+        ManagedLabel sl = labels.computeIfAbsent(mv, it -> new HashMap<>()).computeIfAbsent(s, it -> new ManagedLabel(defined));
         sl.defined = sl.defined || defined;
         return sl.label;
     }
 
     public static void verify() {
-        for (Map.Entry<MethodVisitor, Map<String, SafeLabel>> e1 : labels.entrySet()) {
-            for (Map.Entry<String, SafeLabel> e2 : e1.getValue().entrySet()) {
+        for (Map.Entry<MethodVisitor, Map<String, ManagedLabel>> e1 : labels.entrySet()) {
+            for (Map.Entry<String, ManagedLabel> e2 : e1.getValue().entrySet()) {
                 if (!e2.getValue().defined) {
                     throw new IllegalStateException(String.format("Label '%s' is used but not defined.", e2.getKey()));
                 }
@@ -63,12 +64,12 @@ public final class StructureHolder {
 
     public static List<LiteralArgumentBuilder<List<IInsn>>> init() {
         return CommandBuilder.ofCommands(
-                CommandBuilder.ofArgumentInsn("LABEL", StringArgumentType.string(), String.class, (mv, s) -> mv.visitLabel(computeLabel(mv, s, true))),
+                CommandBuilder.ofArgumentInsn("LABEL", LabelIDArgumentType.label(), String.class, (mv, s) -> mv.visitLabel(computeLabel(mv, s, true))),
                 CommandBuilder.literal("LOCALVARIABLE").then(
                         CommandBuilder.argument("name", StringArgumentType.string()).then(
                                 CommandBuilder.argument("desc", JavaDescriptorArgumentType.single()).then(
-                                        CommandBuilder.argument("begin", StringArgumentType.string()).then(
-                                                CommandBuilder.argument("end", StringArgumentType.string()).then(
+                                        CommandBuilder.argument("begin", LabelIDArgumentType.label()).then(
+                                                CommandBuilder.argument("end", LabelIDArgumentType.label()).then(
                                                         CommandBuilder.argument("index", IntegerArgumentType.integer()).executes(CommandBuilder.execute(context ->
                                                                 mv -> mv.visitLocalVariable(
                                                                         context.getArgument("name", String.class),

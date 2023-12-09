@@ -24,7 +24,6 @@ import com.mojang.brigadier.context.CommandContext;
 import net.burningtnt.bcigenerator.arguments.JavaDescriptor;
 import net.burningtnt.bcigenerator.arguments.JavaDescriptorArgumentType;
 import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Opcodes;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -93,7 +92,7 @@ public final class CommandBuilder {
         return ofArgumentInsn(op, JavaDescriptorArgumentType.field(), JavaDescriptor.class, (mv, desc) -> mv.visitFieldInsn(opcode, desc.getOwner(), desc.getName(), desc.getDesc()));
     }
 
-    public static LiteralArgumentBuilder<List<IInsn>> ofMethodInsn(String op, int opcode) {
-        return ofArgumentInsn(op, JavaDescriptorArgumentType.method(), JavaDescriptor.class, (mv, desc) -> mv.visitMethodInsn(opcode, desc.getOwner(), desc.getName(), desc.getDesc(), opcode == Opcodes.INVOKEINTERFACE));
+    public static LiteralArgumentBuilder<List<IInsn>> ofMethodInsn(String op, int opcode, boolean isInterface) {
+        return ofArgumentInsn(op, JavaDescriptorArgumentType.method(), JavaDescriptor.class, (mv, desc) -> mv.visitMethodInsn(opcode, desc.getOwner(), desc.getName(), desc.getDesc(), isInterface));
     }
 }

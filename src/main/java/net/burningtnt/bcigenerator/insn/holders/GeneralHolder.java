@@ -29,7 +29,7 @@ public final class GeneralHolder {
 
     public static List<LiteralArgumentBuilder<List<IInsn>>> init() {
         return CommandBuilder.ofCommands(
-                CommandBuilder.ofArgumentInsn("LDC", StringArgumentType.string(), String.class, MethodVisitor::visitLdcInsn),
+                CommandBuilder.ofArgumentInsn("LDCSTRING", StringArgumentType.string(), String.class, MethodVisitor::visitLdcInsn),
 
                 CommandBuilder.ofVarInsn("ILOAD", Opcodes.ILOAD),
                 CommandBuilder.ofVarInsn("LLOAD", Opcodes.LLOAD),

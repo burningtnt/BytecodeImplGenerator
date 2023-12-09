@@ -35,6 +35,7 @@ public final class JavaDescriptorArgumentType implements ArgumentType<JavaDescri
     public static JavaDescriptorArgumentType single() {
         return new JavaDescriptorArgumentType(DescriptorType.SINGLE);
     }
+
     public static JavaDescriptorArgumentType clazz() {
         return new JavaDescriptorArgumentType(DescriptorType.CLAZZ);
     }
@@ -92,7 +93,7 @@ public final class JavaDescriptorArgumentType implements ArgumentType<JavaDescri
         if (this.type == DescriptorType.CLAZZ) {
             String clazz = reader.getRemaining();
             reader.setCursor(reader.getTotalLength());
-            return new JavaDescriptor(clazz,null, null);
+            return new JavaDescriptor(clazz, null, null);
         }
 
         char first = reader.read();
