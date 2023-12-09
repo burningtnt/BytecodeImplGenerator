@@ -14,8 +14,8 @@ repositories {
 }
 
 dependencies {
-    implementation("org.ow2.asm:asm:9.6")
-    implementation("com.mojang:brigadier:1.0.18")
+    api("org.ow2.asm:asm:9.6")
+    api("com.mojang:brigadier:1.0.18")
 }
 
 tasks.build {
