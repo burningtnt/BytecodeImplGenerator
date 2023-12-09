@@ -34,7 +34,7 @@ public class BytecodeInsnAnnotationVistor extends AnnotationVisitor {
     public void visit(String name, Object value) {
         if ((name == null || "value".equals(name)) && value instanceof String) {
             try {
-                this.insnList.add(Parser.parse((String) value));
+                Parser.apply((String) value, this.insnList);
             } catch (CommandSyntaxException e) {
                 throw new IllegalStateException(String.format("Illegal command: %s.", value), e);
             }

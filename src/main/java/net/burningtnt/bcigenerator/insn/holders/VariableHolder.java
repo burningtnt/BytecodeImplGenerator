@@ -17,7 +17,7 @@ package net.burningtnt.bcigenerator.insn.holders;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.burningtnt.bcigenerator.insn.CommandBuilder;
-import net.burningtnt.bcigenerator.insn.Parser;
+import net.burningtnt.bcigenerator.insn.IInsn;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
@@ -27,8 +27,8 @@ public final class VariableHolder {
     private VariableHolder() {
     }
 
-    public static List<LiteralArgumentBuilder<Parser.InsnReference>> init() {
-        return List.of(
+    public static List<LiteralArgumentBuilder<List<IInsn>>> init() {
+        return CommandBuilder.ofCommands(
                 CommandBuilder.ofArgumentInsn("LDC", StringArgumentType.string(), String.class, MethodVisitor::visitLdcInsn),
 
                 CommandBuilder.ofVarInsn("ILOAD", Opcodes.ILOAD),

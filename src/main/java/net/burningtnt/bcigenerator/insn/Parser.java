@@ -18,6 +18,8 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.burningtnt.bcigenerator.insn.holders.*;
 
+import java.util.List;
+
 public final class Parser {
     public static class InsnReference {
         private IInsn insn;
@@ -47,7 +49,7 @@ public final class Parser {
     private Parser() {
     }
 
-    private static final CommandDispatcher<InsnReference> dispatcher = CommandBuilder.register(
+    private static final CommandDispatcher<List<IInsn>> dispatcher = CommandBuilder.register(
             StructureHolder.init(),
             MiscHolder.init(),
             VariableHolder.init(),
@@ -56,9 +58,7 @@ public final class Parser {
             MethodHolder.init()
     );
 
-    public static IInsn parse(String code) throws CommandSyntaxException {
-        InsnReference reference = new InsnReference();
-        dispatcher.execute(code, reference);
-        return reference.getInsn();
+    public static void apply(String code, List<IInsn> context) throws CommandSyntaxException {
+        dispatcher.execute(code, context);
     }
 }

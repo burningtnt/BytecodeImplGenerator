@@ -4,39 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ee6a74a-7b6e-4bb1-b161-18dc9d85aa2e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/impl/build.gradle.kts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/impl/src/main/java/net/burningtnt/bcitest/Implementation.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/BytecodeImplGenerator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/api/BytecodeImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/api/BytecodeImplError.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/arguments/JavaDescriptor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/arguments/JavaDescriptorArgumentType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/insn/CommandBuilder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/insn/IInsn.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/insn/Parser.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/insn/holders/FieldHolder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/insn/holders/MethodHolder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/insn/holders/MiscHolder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/insn/holders/ReturnHolder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/insn/holders/StructureHolder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/insn/holders/VariableHolder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/visitors/BytecodeImplAnnotationVisitor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/visitors/BytecodeImplClassVisitor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/visitors/BytecodeInsnAnnotationVistor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/visitors/BytecodeMethodVisitor.java" afterDir="false" />
-    </list>
+    <list default="true" id="0ee6a74a-7b6e-4bb1-b161-18dc9d85aa2e" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -100,7 +68,7 @@
   "keyToString": {
     "ASKED_ADD_EXTERNAL_FILES": "true",
     "Gradle.BytecodeImplGenerator [:BytecodeImplGenerator.main()].executor": "Debug",
-    "Gradle.BytecodeImplGenerator [build].executor": "Debug",
+    "Gradle.BytecodeImplGenerator [build].executor": "Run",
     "Gradle.BytecodeImplGenerator [test].executor": "Debug",
     "Gradle.BytecodeImplGenerator:impl [:impl:Implementation.main()].executor": "Run",
     "Gradle.BytecodeImplGenerator:impl [compileJava].executor": "Run",
@@ -110,14 +78,18 @@
     "git-widget-placeholder": "master",
     "jdk.selected.JAVA_MODULE": "LibericaJDK-11-Full",
     "kotlin-language-version-configured": "true",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
+    "last_opened_file_path": "D:/PYL/Projects/BytecodeImplGenerator",
+    "project.structure.last.edited": "SDKs",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
     "run.code.analysis.last.selected.profile": "pProject Default",
     "settings.editor.selected.configurable": "preferences.keymap"
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\PYL\Projects\BytecodeImplGenerator" />
+    </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="net.burningtnt.bcigenerator" />
     </key>
@@ -128,7 +100,7 @@
       <recent name="net.burningtnt.bcigenerator.insn.holders" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Implementation">
+  <component name="RunManager" selected="Gradle.BytecodeImplGenerator [build]">
     <configuration name="Implementation" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="net.burningtnt.bcitest.Implementation" />
       <module name="BytecodeImplGenerator.impl.main" />

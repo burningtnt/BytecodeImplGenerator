@@ -20,7 +20,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.burningtnt.bcigenerator.arguments.JavaDescriptor;
 import net.burningtnt.bcigenerator.arguments.JavaDescriptorArgumentType;
 import net.burningtnt.bcigenerator.insn.CommandBuilder;
-import net.burningtnt.bcigenerator.insn.Parser;
+import net.burningtnt.bcigenerator.insn.IInsn;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 
@@ -61,8 +61,8 @@ public final class StructureHolder {
         }
     }
 
-    public static List<LiteralArgumentBuilder<Parser.InsnReference>> init() {
-        return List.of(
+    public static List<LiteralArgumentBuilder<List<IInsn>>> init() {
+        return CommandBuilder.ofCommands(
                 CommandBuilder.ofArgumentInsn("LABEL", StringArgumentType.string(), String.class, (mv, s) -> mv.visitLabel(computeLabel(mv, s, true))),
                 CommandBuilder.literal("LOCALVARIABLE").then(
                         CommandBuilder.argument("name", StringArgumentType.string()).then(

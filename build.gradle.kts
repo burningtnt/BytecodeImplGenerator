@@ -18,10 +18,19 @@ dependencies {
     implementation("com.mojang:brigadier:1.0.18")
 }
 
-tasks.getByName("build") {
-    dependsOn(tasks.getByName("checkstyleMain") {
-        group = "build"
-    })
+tasks.build {
+    dependsOn(tasks.checkstyleMain)
+}
+
+tasks.checkstyleMain {
+    group = "build"
+}
+
+tasks.compileJava {
+    options.release.set(8)
+
+    sourceCompatibility = "8"
+    targetCompatibility = "8"
 }
 
 publishing {

@@ -21,7 +21,7 @@ import org.objectweb.asm.ClassWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
+import java.nio.file.Paths;
 
 public final class BytecodeImplGenerator {
     private BytecodeImplGenerator() {
@@ -29,7 +29,7 @@ public final class BytecodeImplGenerator {
 
     public static void main(String[] args) throws IOException {
         for (String arg : args) {
-            Path path = Path.of(arg);
+            Path path = Paths.get(arg);
             Files.write(path, process(Files.readAllBytes(path)));
         }
     }
