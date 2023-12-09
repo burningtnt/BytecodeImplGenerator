@@ -82,15 +82,16 @@ public final class JavaDescriptorArgumentType implements ArgumentType<JavaDescri
 
     @Override
     public JavaDescriptor parse(StringReader reader) throws CommandSyntaxException {
-        if (this.type == DescriptorType.SINGLE) {
-            return new JavaDescriptor(readDesc(reader), null, null);
-        }
-
         char first = reader.read();
         if (first != 'L') {
             throw INVALID_DESC.createWithContext(reader, String.valueOf(first));
         }
         String owner = reader.readStringUntil(';');
+
+        if (this.type == DescriptorType.SINGLE) {
+            return new JavaDescriptor(owner, null, null);
+        }
+
         String name = reader.readStringUntil(this.type == DescriptorType.FIELD ? ':' : '(');
 
         String desc;

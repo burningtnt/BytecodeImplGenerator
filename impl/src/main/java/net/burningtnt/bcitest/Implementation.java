@@ -23,18 +23,23 @@ public final class Implementation {
 
     @BytecodeImpl({
             "LABEL METHOD_HEAD",
-            "GETSTATIC Ljava/lang/System;out:Ljava/io/PrintStream;",
-            "LDC \"Hello World!\"",
-            "INVOKEVIRTUAL Ljava/io/PrintStream;println(Ljava/lang/String;)V",
-            "RETURN",
+            "NEW Ljava/lang/StringBuilder;",
+            "DUP",
+            "LDC \"[HEAD]\"",
+            "INVOKESPECIAL Ljava/lang/StringBuilder;<init>(Ljava/lang/String;)V",
+            "ARETURN",
             "LABEL METHOD_TAIL",
-            "MAXS 2 0"
+            "MAXS 3 0"
     })
-    private static void sayHelloWorld() {
+    private static StringBuilder constructObject() {
         throw new BytecodeImplError();
     }
 
+    private static StringBuilder example() {
+        return new StringBuilder("[HEAD]");
+    }
+
     public static void main(String[] args) {
-        sayHelloWorld();
+        System.out.println(constructObject().append("[Further]"));
     }
 }

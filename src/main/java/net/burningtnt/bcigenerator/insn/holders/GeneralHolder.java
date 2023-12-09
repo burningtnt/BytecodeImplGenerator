@@ -23,8 +23,8 @@ import org.objectweb.asm.Opcodes;
 
 import java.util.List;
 
-public final class VariableHolder {
-    private VariableHolder() {
+public final class GeneralHolder {
+    private GeneralHolder() {
     }
 
     public static List<LiteralArgumentBuilder<List<IInsn>>> init() {
@@ -58,7 +58,12 @@ public final class VariableHolder {
                 CommandBuilder.ofGeneralInsn("AASTORE", Opcodes.AASTORE),
                 CommandBuilder.ofGeneralInsn("BASTORE", Opcodes.BASTORE),
                 CommandBuilder.ofGeneralInsn("CASTORE", Opcodes.CASTORE),
-                CommandBuilder.ofGeneralInsn("SASTORE", Opcodes.SASTORE)
+                CommandBuilder.ofGeneralInsn("SASTORE", Opcodes.SASTORE),
+
+                CommandBuilder.ofGeneralInsn("POP", Opcodes.POP),
+                CommandBuilder.ofGeneralInsn("POP2", Opcodes.POP2),
+                CommandBuilder.ofGeneralInsn("DUP", Opcodes.DUP),
+                CommandBuilder.ofGeneralInsn("DUP2", Opcodes.DUP2)
         );
     }
 }
