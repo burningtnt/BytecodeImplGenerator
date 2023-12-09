@@ -23,20 +23,21 @@ public final class Implementation {
 
     @BytecodeImpl({
             "LABEL METHOD_HEAD",
+            "NEW java/lang/StringBuilder",
+            "DUP",
+            "INVOKESPECIAL Ljava/lang/StringBuilder;<init>()V",
             "ALOAD 0",
-            "ALOAD 1",
             "INVOKEVIRTUAL Ljava/lang/StringBuilder;append([C)Ljava/lang/StringBuilder;",
             "LABEL RELEASE_PARAMETER",
             "ARETURN",
-            "LOCALVARIABLE sb Ljava/lang/StringBuilder; METHOD_HEAD RELEASE_PARAMETER 0",
-            "LOCALVARIABLE more [C METHOD_HEAD RELEASE_PARAMETER 1",
-            "MAXS 2 2"
+            "LOCALVARIABLE more [C METHOD_HEAD RELEASE_PARAMETER 0",
+            "MAXS 2 1"
     })
-    private static StringBuilder doAppend(StringBuilder sb, char[] more) {
+    private static StringBuilder doAppend(char[] more) {
         throw new BytecodeImplError();
     }
 
     public static void main(String[] args) {
-        System.out.println(doAppend(new StringBuilder().append("[HEAD]"), "[FURTHER]".toCharArray()).toString());
+        System.out.println(doAppend("[TEXT]".toCharArray()).toString());
     }
 }

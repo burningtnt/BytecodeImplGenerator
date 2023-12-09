@@ -90,7 +90,9 @@ public final class JavaDescriptorArgumentType implements ArgumentType<JavaDescri
         }
 
         if (this.type == DescriptorType.CLAZZ) {
-            return new JavaDescriptor(reader.readStringUntil(';') ,null, null);
+            String clazz = reader.getRemaining();
+            reader.setCursor(reader.getTotalLength());
+            return new JavaDescriptor(clazz,null, null);
         }
 
         char first = reader.read();
