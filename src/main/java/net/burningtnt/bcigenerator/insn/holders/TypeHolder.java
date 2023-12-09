@@ -15,7 +15,7 @@ public class TypeHolder {
 
     public static List<LiteralArgumentBuilder<List<IInsn>>> init() {
         return CommandBuilder.ofCommands(
-                CommandBuilder.ofArgumentInsn("NEW", JavaDescriptorArgumentType.single(), JavaDescriptor.class, (mv, desc) -> mv.visitTypeInsn(Opcodes.NEW, desc.getOwner()))
+                CommandBuilder.ofArgumentInsn("NEW", JavaDescriptorArgumentType.clazz(), JavaDescriptor.class, (mv, desc) -> mv.visitTypeInsn(Opcodes.NEW, desc.getOwner()))
         );
     }
 }

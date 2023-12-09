@@ -72,7 +72,7 @@ public final class StructureHolder {
                                                         CommandBuilder.argument("index", IntegerArgumentType.integer()).executes(CommandBuilder.execute(context ->
                                                                 mv -> mv.visitLocalVariable(
                                                                         context.getArgument("name", String.class),
-                                                                        context.getArgument("desc", JavaDescriptor.class).getOwner(),
+                                                                        context.getArgument("desc", JavaDescriptor.class).getDesc(),
                                                                         null,
                                                                         computeLabel(mv, context.getArgument("begin", String.class), false),
                                                                         computeLabel(mv, context.getArgument("end", String.class), false),

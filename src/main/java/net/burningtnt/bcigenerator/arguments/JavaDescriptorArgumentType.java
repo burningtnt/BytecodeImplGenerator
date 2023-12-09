@@ -35,6 +35,9 @@ public final class JavaDescriptorArgumentType implements ArgumentType<JavaDescri
     public static JavaDescriptorArgumentType single() {
         return new JavaDescriptorArgumentType(DescriptorType.SINGLE);
     }
+    public static JavaDescriptorArgumentType clazz() {
+        return new JavaDescriptorArgumentType(DescriptorType.CLAZZ);
+    }
 
     public static JavaDescriptorArgumentType field() {
         return new JavaDescriptorArgumentType(DescriptorType.FIELD);
@@ -82,16 +85,19 @@ public final class JavaDescriptorArgumentType implements ArgumentType<JavaDescri
 
     @Override
     public JavaDescriptor parse(StringReader reader) throws CommandSyntaxException {
+        if (this.type == DescriptorType.SINGLE) {
+            return new JavaDescriptor(null, null, readDesc(reader));
+        }
+
+        if (this.type == DescriptorType.CLAZZ) {
+            return new JavaDescriptor(reader.readStringUntil(';') ,null, null);
+        }
+
         char first = reader.read();
         if (first != 'L') {
             throw INVALID_DESC.createWithContext(reader, String.valueOf(first));
         }
         String owner = reader.readStringUntil(';');
-
-        if (this.type == DescriptorType.SINGLE) {
-            return new JavaDescriptor(owner, null, null);
-        }
-
         String name = reader.readStringUntil(this.type == DescriptorType.FIELD ? ':' : '(');
 
         String desc;
@@ -112,6 +118,7 @@ public final class JavaDescriptorArgumentType implements ArgumentType<JavaDescri
 
     public enum DescriptorType {
         SINGLE("\"Lorg/objectweb/asm/Opcodes;", "I"),
+        CLAZZ("org/objectweb/asm/Opcodes", "java/lang/System"),
         FIELD("Lorg/objectweb/asm/Opcodes;RETURN:I", "Ljava/lang/System;out:Ljava/io/PrintStream;"),
         METHOD("Ljava/io/PrintStream;println(Ljava/lang/String;)V", "Lcom/mojang/brigadier/arguments/StringArgumentType;<init>(Lcom/mojang/brigadier/arguments/StringArgumentType$StringType;)V");
 
