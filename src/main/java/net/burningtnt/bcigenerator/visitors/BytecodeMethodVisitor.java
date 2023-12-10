@@ -16,7 +16,7 @@ package net.burningtnt.bcigenerator.visitors;
 
 import net.burningtnt.bcigenerator.api.BytecodeImpl;
 import net.burningtnt.bcigenerator.insn.IInsn;
-import net.burningtnt.bcigenerator.insn.holders.StructureHolder;
+import net.burningtnt.bcigenerator.insn.holders.ControlFlowHolder;
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
@@ -51,7 +51,7 @@ public final class BytecodeMethodVisitor extends MethodVisitor {
             for (IInsn insn : this.insnList) {
                 insn.write(this.raw);
             }
-            StructureHolder.verify();
+            ControlFlowHolder.verify();
         } else {
             super.visitCode();
         }

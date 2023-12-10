@@ -68,9 +68,9 @@ Examples: `DUP`, `ARETURN`, `MONITORENTER`
 ## visitIntInsn
 The operator is directly the name declared in `Opcodes`.
 
-The parameter should be the name declared in `Opcodes`, or directly the value, which depends on the operator.
+The parameter should be the name declared in `Opcodes` without "T_" prefix, or directly the value, which depends on the operator.
 
-Examples: `NEWARRAY T_BOOLEAN`, `BIPUSH 10` and `SIPUSH 800`
+Examples: `NEWARRAY BOOLEAN`, `BIPUSH 10` and `SIPUSH 800`
 
 ## visitVarInsn
 The operator is directly the name declared in `Opcodes`.

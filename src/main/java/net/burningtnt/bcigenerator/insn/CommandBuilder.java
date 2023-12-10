@@ -23,6 +23,7 @@ import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import net.burningtnt.bcigenerator.arguments.JavaDescriptor;
 import net.burningtnt.bcigenerator.arguments.JavaDescriptorArgumentType;
+import net.burningtnt.bcigenerator.arguments.LabelIDArgumentType;
 import org.objectweb.asm.MethodVisitor;
 
 import java.util.Arrays;
@@ -62,17 +63,17 @@ public final class CommandBuilder {
         return dispatcher;
     }
 
+    @SafeVarargs
+    public static List<LiteralArgumentBuilder<List<IInsn>>> ofCommands(LiteralArgumentBuilder<List<IInsn>>... items) {
+        return Collections.unmodifiableList(Arrays.asList(items));
+    }
+
     private static final ThreadLocalRandom RANDOM = ThreadLocalRandom.current();
 
     public static LiteralArgumentBuilder<List<IInsn>> ofGeneralInsn(String op, int opcode) {
         return literal(op).executes(execute(context ->
                 mv -> mv.visitInsn(opcode)
         ));
-    }
-
-    @SafeVarargs
-    public static List<LiteralArgumentBuilder<List<IInsn>>> ofCommands(LiteralArgumentBuilder<List<IInsn>>... items) {
-        return Collections.unmodifiableList(Arrays.asList(items));
     }
 
     public static <A> LiteralArgumentBuilder<List<IInsn>> ofArgumentInsn(String op, ArgumentType<A> argumentType, Class<A> clazz, BiConsumer<MethodVisitor, A> consumer) {
@@ -82,6 +83,14 @@ public final class CommandBuilder {
                         mv -> consumer.accept(mv, context.getArgument(argumentName, clazz))
                 ))
         );
+    }
+
+    public static LiteralArgumentBuilder<List<IInsn>> ofLabel(String op, BiConsumer<MethodVisitor, String> consumer) {
+        return ofArgumentInsn(op, LabelIDArgumentType.label(), String.class, consumer);
+    }
+
+    public static LiteralArgumentBuilder<List<IInsn>> ofIntInsn(String op, int opcode, int min, int max) {
+        return ofArgumentInsn(op, IntegerArgumentType.integer(min, max), Integer.class, (mv, integer) -> mv.visitIntInsn(opcode, integer));
     }
 
     public static LiteralArgumentBuilder<List<IInsn>> ofVarInsn(String op, int opcode) {

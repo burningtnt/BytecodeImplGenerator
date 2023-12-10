@@ -25,9 +25,9 @@ public final class Parser {
     }
 
     private static final CommandDispatcher<List<IInsn>> dispatcher = CommandBuilder.register(
-            StructureHolder.init(),
-            MiscHolder.init(),
             GeneralHolder.init(),
+            ControlFlowHolder.init(),
+            MiscHolder.init(),
             ReturnHolder.init(),
             FieldHolder.init(),
             MethodHolder.init(),
