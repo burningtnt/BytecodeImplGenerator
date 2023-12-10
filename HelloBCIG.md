@@ -7,7 +7,7 @@ In this project, we will make a program that prints "Hello BCIG!" on the console
 In the beginning, let's make the structure.
 
 ```java
-package net.burningtnt.bcidemos.Demo0;
+package net.burningtnt.bcidemos.demo0;
 
 import net.burningtnt.bcigenerator.api.BytecodeImpl;
 import net.burningtnt.bcigenerator.api.BytecodeImplError;
@@ -38,7 +38,7 @@ In general, our BCIIs should be coded in following steps:
 So, these are the BCIIs.
 ```BCII
 GETSTATIC Ljava/lang/System;out:Ljava/io/PrintStream;
-LDCSTRING "Hello BCIG!"
+LDC STRING "Hello BCIG!"
 INVOKEVIRTUAL Ljava/io/PrintStream;println(Ljava/lang/String;)V
 RETURN
 ```
@@ -47,7 +47,7 @@ In order to make this method legal in VM Class Format, we should insert these BC
 ```diff
 +LABEL METHOD_HEAD
 GETSTATIC Ljava/lang/System;out:Ljava/io/PrintStream;
-LDCSTRING "Hello BCIG!"
+LDC STRING "Hello BCIG!"
 INVOKEVIRTUAL Ljava/io/PrintStream;println(Ljava/lang/String;)V
 +LABEL METHOD_TAIL
 RETURN
@@ -70,7 +70,7 @@ In this project, we will create a method that invokes `java.nio.file.Path::of(ja
 In the beginning, let's make the structure.
 
 ```java
-package net.burningtnt.bcidemos.Demo0;
+package net.burningtnt.bcidemos.demo0;
 
 import net.burningtnt.bcigenerator.api.BytecodeImpl;
 import net.burningtnt.bcigenerator.api.BytecodeImplError;

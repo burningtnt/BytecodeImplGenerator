@@ -12,33 +12,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.burningtnt.bcidemos.Demo0;
+package net.burningtnt.bcidemos.demo0;
 
 import net.burningtnt.bcigenerator.api.BytecodeImpl;
 import net.burningtnt.bcigenerator.api.BytecodeImplError;
 
-import java.nio.file.Path;
-
-public final class Demo1 {
-    private Demo1() {
+public final class Demo0 {
+    private Demo0() {
     }
 
     @BytecodeImpl({
             "LABEL METHOD_HEAD",
-            "ALOAD 0",
-            "ALOAD 1",
-            "INVOKEINTERFACESTATIC Ljava/nio/file/Path;of(Ljava/lang/String;[Ljava/lang/String;)Ljava/nio/file/Path;",
+            "GETSTATIC Ljava/lang/System;out:Ljava/io/PrintStream;",
+            "LDC STRING \"Hello BCIG!\"",
+            "INVOKEVIRTUAL Ljava/io/PrintStream;println(Ljava/lang/String;)V",
             "LABEL METHOD_TAIL",
-            "ARETURN",
-            "LOCALVARIABLE first Ljava/lang/String; METHOD_HEAD METHOD_TAIL 0",
-            "LOCALVARIABLE further [Ljava/lang/String; METHOD_HEAD METHOD_TAIL 1",
-            "MAXS 2 2"
+            "RETURN",
+            "MAXS 2 0"
     })
-    private static Path getPath(String first, String... further) {
+    private static void method() {
         throw new BytecodeImplError();
     }
 
     public static void main(String[] args) {
-        System.out.println(getPath("First", "Second", "Third").toString());
+        method();
     }
 }

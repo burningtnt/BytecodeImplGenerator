@@ -3,7 +3,7 @@
 Minimal library for generating bytecode implemented methods.
 
 ## Knowledge Required
-Please make sure that you have understood Java Bytecode and learned ASM.
+Please make sure that you have learnt Java Bytecode and ASM.
 
 ## Usage
 

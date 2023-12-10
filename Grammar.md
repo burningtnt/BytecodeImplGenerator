@@ -5,7 +5,7 @@ A bytecode implemented method should be something like this:
 @BytecodeImpl({
         "LABEL METHOD_HEAD",
         "GETSTATIC Ljava/lang/System;out:Ljava/io/PrintStream;",
-        "LDCSTRING \"Hello BCIG!\"",
+        "LDC STRING \"Hello BCIG!\"",
         "INVOKEVIRTUAL Ljava/io/PrintStream;println(Ljava/lang/String;)V",
         "RETURN",
         "LABEL METHOD_TAIL",
@@ -119,9 +119,10 @@ This depends on the constant type.
 ### String
 The operator should always be `LDCString`.
 
-The parameter should be a string placed in an apostrophe.
+The first parameter should always be `STRING`.
+The next parameter should be a string placed in an apostrophe.
 
-Examples: `LDCString \"Hello World!\"` which stands for push `Hello World!` into the JVM runtime stack,  is a legal BCII.
+Examples: `LDC STRING \"Hello World!\"` which stands for push `Hello World!` into the JVM runtime stack, is a legal BCII.
 
 ### TODO
 

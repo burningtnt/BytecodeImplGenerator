@@ -16,8 +16,8 @@ tasks.compileJava {
     dependsOn(rootProject.tasks.compileJava)
 
     val bytecodeClasses = listOf(
-            "net/burningtnt/bcidemos/Demo0/Demo0",
-            "net/burningtnt/bcidemos/Demo0/Demo1"
+            "net/burningtnt/bcidemos/demo0/Demo0",
+            "net/burningtnt/bcidemos/demo1/Demo1"
     )
 
     doLast {
@@ -34,4 +34,12 @@ tasks.compileJava {
 
 dependencies {
     compileOnly(rootProject)
+
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:5.9.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.2")
+}
+
+tasks.test {
+    useJUnitPlatform()
 }

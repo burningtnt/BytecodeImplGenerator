@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ee6a74a-7b6e-4bb1-b161-18dc9d85aa2e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="0ee6a74a-7b6e-4bb1-b161-18dc9d85aa2e" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -52,6 +50,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="ProjectErrors" />
   </component>
@@ -66,28 +67,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;Gradle.BytecodeImplGenerator [:BytecodeImplGenerator.main()].executor&quot;: &quot;Debug&quot;,
-    &quot;Gradle.BytecodeImplGenerator [build].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.BytecodeImplGenerator [test].executor&quot;: &quot;Debug&quot;,
-    &quot;Gradle.BytecodeImplGenerator:impl [:impl:Implementation.main()].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.BytecodeImplGenerator:impl [compileJava].executor&quot;: &quot;Run&quot;,
-    &quot;Remote JVM Debug.Debug BCI.executor&quot;: &quot;Debug&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;LibericaJDK-11-Full&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/PYL/Projects/BytecodeImplGenerator&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Gradle.BytecodeImplGenerator [:BytecodeImplGenerator.main()].executor": "Debug",
+    "Gradle.BytecodeImplGenerator [build].executor": "Run",
+    "Gradle.BytecodeImplGenerator [test].executor": "Debug",
+    "Gradle.BytecodeImplGenerator:impl [:impl:Demo0.main()].executor": "Run",
+    "Gradle.BytecodeImplGenerator:impl [:impl:Demo1.main()].executor": "Run",
+    "Gradle.BytecodeImplGenerator:impl [:impl:Implementation.main()].executor": "Run",
+    "Gradle.BytecodeImplGenerator:impl [compileJava].executor": "Run",
+    "Remote JVM Debug.Debug BCI.executor": "Debug",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "jdk.selected.JAVA_MODULE": "LibericaJDK-11-Full",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/PYL/Projects/BytecodeImplGenerator",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "preferences.keymap"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\PYL\Projects\BytecodeImplGenerator" />
@@ -99,16 +102,30 @@
       <recent name="net.burningtnt.bcigenerator.insn" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="net.burningtnt.bcidemos.Demo0" />
       <recent name="net.burningtnt.bcigenerator.insn.holders" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Implementation">
-    <configuration name="Implementation" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="net.burningtnt.bcitest.Implementation" />
+  <component name="RunManager" selected="Gradle.BytecodeImplGenerator [build]">
+    <configuration name="Demo0" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="net.burningtnt.bcidemos.Demo0.Demo0" />
       <module name="BytecodeImplGenerator.impl.main" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="net.burningtnt.bcitest.*" />
+          <option name="PATTERN" value="net.burningtnt.bcidemos.Demo0.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Demo1" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="net.burningtnt.bcidemos.Demo0.Demo1" />
+      <module name="BytecodeImplGenerator.impl.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="net.burningtnt.bcidemos.Demo0.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -180,7 +197,8 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Application.Implementation" />
+      <item itemvalue="Application.Demo1" />
+      <item itemvalue="Application.Demo0" />
       <item itemvalue="Compound.Debug BCI" />
       <item itemvalue="Gradle.BytecodeImplGenerator [build]" />
       <item itemvalue="Gradle.BytecodeImplGenerator [test]" />
@@ -188,7 +206,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Implementation" />
+        <item itemvalue="Application.Demo1" />
+        <item itemvalue="Application.Demo0" />
       </list>
     </recent_temporary>
   </component>
@@ -223,5 +242,12 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="Remote">
+        <watch expression="reader.getString()" language="JAVA" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>
