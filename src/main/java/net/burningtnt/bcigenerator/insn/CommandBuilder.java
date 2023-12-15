@@ -15,7 +15,6 @@
 package net.burningtnt.bcigenerator.insn;
 
 import com.mojang.brigadier.Command;
-import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -37,11 +36,11 @@ public final class CommandBuilder {
     private CommandBuilder() {
     }
 
-    public static LiteralArgumentBuilder<List<IInsn>> literal(String name) {
+    public static LiteralArgumentBuilder<List<IInsn>> ofLiteralCommand(String name) {
         return LiteralArgumentBuilder.literal(name);
     }
 
-    public static <A> RequiredArgumentBuilder<List<IInsn>, A> argument(String name, ArgumentType<A> argumentType) {
+    public static <A> RequiredArgumentBuilder<List<IInsn>, A> ofArgumentCommand(String name, ArgumentType<A> argumentType) {
         return RequiredArgumentBuilder.argument(name, argumentType);
     }
 
@@ -53,39 +52,29 @@ public final class CommandBuilder {
     }
 
     @SafeVarargs
-    public static CommandDispatcher<List<IInsn>> register(List<LiteralArgumentBuilder<List<IInsn>>>... items) {
-        CommandDispatcher<List<IInsn>> dispatcher = new CommandDispatcher<>();
-        for (List<LiteralArgumentBuilder<List<IInsn>>> holder : items) {
-            for (LiteralArgumentBuilder<List<IInsn>> item : holder) {
-                dispatcher.register(item);
-            }
-        }
-        return dispatcher;
-    }
-
-    @SafeVarargs
     public static List<LiteralArgumentBuilder<List<IInsn>>> ofCommands(LiteralArgumentBuilder<List<IInsn>>... items) {
         return Collections.unmodifiableList(Arrays.asList(items));
     }
 
-    private static final ThreadLocalRandom RANDOM = ThreadLocalRandom.current();
-
     public static LiteralArgumentBuilder<List<IInsn>> ofGeneralInsn(String op, int opcode) {
-        return literal(op).executes(execute(context ->
+        return ofLiteralCommand(op).executes(execute(context ->
                 mv -> mv.visitInsn(opcode)
         ));
     }
 
+    private static final ThreadLocalRandom ARGUMENT_NAME_RANDOM = ThreadLocalRandom.current();
+    private static long anonymousArgumentGlobalIndex = 0;
+
     public static <A> LiteralArgumentBuilder<List<IInsn>> ofArgumentInsn(String op, ArgumentType<A> argumentType, Class<A> clazz, BiConsumer<MethodVisitor, A> consumer) {
-        String argumentName = "CommandBuilderAnonymousArgument-" + Long.toHexString(RANDOM.nextLong());
-        return literal(op).then(
-                CommandBuilder.argument(argumentName, argumentType).executes(CommandBuilder.execute(context ->
+        String argumentName = String.format("CommandBuilderAnonymousArgument/%016X/%016X", ARGUMENT_NAME_RANDOM.nextLong(), anonymousArgumentGlobalIndex ++);
+        return ofLiteralCommand(op).then(
+                CommandBuilder.ofArgumentCommand(argumentName, argumentType).executes(CommandBuilder.execute(context ->
                         mv -> consumer.accept(mv, context.getArgument(argumentName, clazz))
                 ))
         );
     }
 
-    public static LiteralArgumentBuilder<List<IInsn>> ofLabel(String op, BiConsumer<MethodVisitor, String> consumer) {
+    public static LiteralArgumentBuilder<List<IInsn>> ofLabelInsn(String op, BiConsumer<MethodVisitor, String> consumer) {
         return ofArgumentInsn(op, LabelIDArgumentType.label(), String.class, consumer);
     }
 

@@ -75,32 +75,33 @@ public final class ControlFlowHolder {
                 }
             }
         }
+        labelCache.clear();
     }
 
     public static List<LiteralArgumentBuilder<List<IInsn>>> init() {
         return CommandBuilder.ofCommands(
-                CommandBuilder.ofLabel("IFEQ", (mv, s) -> mv.visitJumpInsn(Opcodes.IFEQ, constructLabel(mv, s))),
-                CommandBuilder.ofLabel("IFNE", (mv, s) -> mv.visitJumpInsn(Opcodes.IFNE, constructLabel(mv, s))),
-                CommandBuilder.ofLabel("IFLT", (mv, s) -> mv.visitJumpInsn(Opcodes.IFLT, constructLabel(mv, s))),
-                CommandBuilder.ofLabel("IFGE", (mv, s) -> mv.visitJumpInsn(Opcodes.IFGE, constructLabel(mv, s))),
-                CommandBuilder.ofLabel("IFGT", (mv, s) -> mv.visitJumpInsn(Opcodes.IFGT, constructLabel(mv, s))),
-                CommandBuilder.ofLabel("IFLE", (mv, s) -> mv.visitJumpInsn(Opcodes.IFLE, constructLabel(mv, s))),
-                CommandBuilder.ofLabel("IF_ICMPEQ", (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ICMPEQ, constructLabel(mv, s))),
-                CommandBuilder.ofLabel("IF_ICMPNE", (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ICMPNE, constructLabel(mv, s))),
-                CommandBuilder.ofLabel("IF_ICMPLT", (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ICMPLT, constructLabel(mv, s))),
-                CommandBuilder.ofLabel("IF_ICMPGE", (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ICMPGE, constructLabel(mv, s))),
-                CommandBuilder.ofLabel("IF_ICMPGT", (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ICMPGT, constructLabel(mv, s))),
-                CommandBuilder.ofLabel("IF_ICMPLE", (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ICMPLE, constructLabel(mv, s))),
-                CommandBuilder.ofLabel("IF_ACMPEQ", (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ACMPEQ, constructLabel(mv, s))),
-                CommandBuilder.ofLabel("IF_ACMPNE", (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ACMPNE, constructLabel(mv, s))),
-                CommandBuilder.ofLabel("GOTO", (mv, s) -> mv.visitJumpInsn(Opcodes.GOTO, constructLabel(mv, s))),
-                CommandBuilder.ofLabel("JSR", (mv, s) -> mv.visitJumpInsn(Opcodes.JSR, constructLabel(mv, s))),
+                CommandBuilder.ofLabelInsn("IFEQ", (mv, s) -> mv.visitJumpInsn(Opcodes.IFEQ, constructLabel(mv, s))),
+                CommandBuilder.ofLabelInsn("IFNE", (mv, s) -> mv.visitJumpInsn(Opcodes.IFNE, constructLabel(mv, s))),
+                CommandBuilder.ofLabelInsn("IFLT", (mv, s) -> mv.visitJumpInsn(Opcodes.IFLT, constructLabel(mv, s))),
+                CommandBuilder.ofLabelInsn("IFGE", (mv, s) -> mv.visitJumpInsn(Opcodes.IFGE, constructLabel(mv, s))),
+                CommandBuilder.ofLabelInsn("IFGT", (mv, s) -> mv.visitJumpInsn(Opcodes.IFGT, constructLabel(mv, s))),
+                CommandBuilder.ofLabelInsn("IFLE", (mv, s) -> mv.visitJumpInsn(Opcodes.IFLE, constructLabel(mv, s))),
+                CommandBuilder.ofLabelInsn("IF_ICMPEQ", (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ICMPEQ, constructLabel(mv, s))),
+                CommandBuilder.ofLabelInsn("IF_ICMPNE", (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ICMPNE, constructLabel(mv, s))),
+                CommandBuilder.ofLabelInsn("IF_ICMPLT", (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ICMPLT, constructLabel(mv, s))),
+                CommandBuilder.ofLabelInsn("IF_ICMPGE", (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ICMPGE, constructLabel(mv, s))),
+                CommandBuilder.ofLabelInsn("IF_ICMPGT", (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ICMPGT, constructLabel(mv, s))),
+                CommandBuilder.ofLabelInsn("IF_ICMPLE", (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ICMPLE, constructLabel(mv, s))),
+                CommandBuilder.ofLabelInsn("IF_ACMPEQ", (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ACMPEQ, constructLabel(mv, s))),
+                CommandBuilder.ofLabelInsn("IF_ACMPNE", (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ACMPNE, constructLabel(mv, s))),
+                CommandBuilder.ofLabelInsn("GOTO", (mv, s) -> mv.visitJumpInsn(Opcodes.GOTO, constructLabel(mv, s))),
+                CommandBuilder.ofLabelInsn("JSR", (mv, s) -> mv.visitJumpInsn(Opcodes.JSR, constructLabel(mv, s))),
                 CommandBuilder.ofVarInsn("RET", Opcodes.RET),
 
-                CommandBuilder.literal("TABLESWITCH").then(
-                        CommandBuilder.argument("minValue", IntegerArgumentType.integer()).then(
-                                CommandBuilder.argument("branches", ListArgumentType.immutableList(LabelIDArgumentType.label())).then(
-                                        CommandBuilder.argument("defaultBranch", LabelIDArgumentType.label()).executes(CommandBuilder.execute(context ->
+                CommandBuilder.ofLiteralCommand("TABLESWITCH").then(
+                        CommandBuilder.ofArgumentCommand("minValue", IntegerArgumentType.integer()).then(
+                                CommandBuilder.ofArgumentCommand("branches", ListArgumentType.immutableList(LabelIDArgumentType.label())).then(
+                                        CommandBuilder.ofArgumentCommand("defaultBranch", LabelIDArgumentType.label()).executes(CommandBuilder.execute(context ->
                                                 mv -> {
                                                     int minValue = context.getArgument("minValue", Integer.class);
                                                     Label[] labels = mapToLabels(mv, context.getArgument("branches", List.class));
@@ -115,9 +116,9 @@ public final class ControlFlowHolder {
                                 )
                         )
                 ),
-                CommandBuilder.literal("LOOKUPSWITCH").then(
-                        CommandBuilder.argument("branches", MapArgumentType.immutableMap(IntegerArgumentType.integer(), LabelIDArgumentType.label())).then(
-                                CommandBuilder.argument("defaultBranch", LabelIDArgumentType.label()).executes(CommandBuilder.execute(context ->
+                CommandBuilder.ofLiteralCommand("LOOKUPSWITCH").then(
+                        CommandBuilder.ofArgumentCommand("branches", MapArgumentType.immutableMap(IntegerArgumentType.integer(), LabelIDArgumentType.label())).then(
+                                CommandBuilder.ofArgumentCommand("defaultBranch", LabelIDArgumentType.label()).executes(CommandBuilder.execute(context ->
                                         mv -> {
                                             Map<?, ?> map = context.getArgument("branches", Map.class);
                                             Label[] labels = new Label[map.size()];
@@ -138,19 +139,19 @@ public final class ControlFlowHolder {
                         )
                 ),
 
-                CommandBuilder.literal("FRAME").then(
-                        CommandBuilder.literal("SAME").executes(CommandBuilder.execute(context ->
+                CommandBuilder.ofLiteralCommand("FRAME").then(
+                        CommandBuilder.ofLiteralCommand("SAME").executes(CommandBuilder.execute(context ->
                                 mv -> mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null)
                         ))
                 ),
 
                 CommandBuilder.ofArgumentInsn("LABEL", LabelIDArgumentType.label(), String.class, (mv, s) -> mv.visitLabel(defineLabel(mv, s))),
-                CommandBuilder.literal("LOCALVARIABLE").then(
-                        CommandBuilder.argument("name", StringArgumentType.string()).then(
-                                CommandBuilder.argument("desc", JavaDescriptorArgumentType.single()).then(
-                                        CommandBuilder.argument("begin", LabelIDArgumentType.label()).then(
-                                                CommandBuilder.argument("end", LabelIDArgumentType.label()).then(
-                                                        CommandBuilder.argument("index", IntegerArgumentType.integer()).executes(CommandBuilder.execute(context ->
+                CommandBuilder.ofLiteralCommand("LOCALVARIABLE").then(
+                        CommandBuilder.ofArgumentCommand("name", StringArgumentType.string()).then(
+                                CommandBuilder.ofArgumentCommand("desc", JavaDescriptorArgumentType.single()).then(
+                                        CommandBuilder.ofArgumentCommand("begin", LabelIDArgumentType.label()).then(
+                                                CommandBuilder.ofArgumentCommand("end", LabelIDArgumentType.label()).then(
+                                                        CommandBuilder.ofArgumentCommand("index", IntegerArgumentType.integer()).executes(CommandBuilder.execute(context ->
                                                                 mv -> mv.visitLocalVariable(
                                                                         context.getArgument("name", String.class),
                                                                         context.getArgument("desc", JavaDescriptor.class).getDesc(),
@@ -165,9 +166,9 @@ public final class ControlFlowHolder {
                                 )
                         )
                 ),
-                CommandBuilder.literal("MAXS").then(
-                        CommandBuilder.argument("maxstack", IntegerArgumentType.integer()).then(
-                                CommandBuilder.argument("maxlocals", IntegerArgumentType.integer()).executes(CommandBuilder.execute(context ->
+                CommandBuilder.ofLiteralCommand("MAXS").then(
+                        CommandBuilder.ofArgumentCommand("maxstack", IntegerArgumentType.integer()).then(
+                                CommandBuilder.ofArgumentCommand("maxlocals", IntegerArgumentType.integer()).executes(CommandBuilder.execute(context ->
                                         mv -> mv.visitMaxs(context.getArgument("maxstack", Integer.class), context.getArgument("maxlocals", Integer.class))
                                 ))
                         )

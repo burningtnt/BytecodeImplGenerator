@@ -5,17 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0ee6a74a-7b6e-4bb1-b161-18dc9d85aa2e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/impl/src/main/java/net/burningtnt/bcidemos/demo2/Demo2.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/impl/src/main/java/net/burningtnt/bcidemos/demo3/Demo3.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/arguments/ListArgumentType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/arguments/MapArgumentType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/utils/io/ExceptionalBiFunction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/impl/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/impl/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/impl/src/test/java/net/burningtn/bcidemos/DemoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/impl/src/test/java/net/burningtn/bcidemos/DemoTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/BytecodeImplGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/BytecodeImplGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/insn/CommandBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/insn/CommandBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/insn/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/insn/Parser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/insn/holders/ControlFlowHolder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/insn/holders/ControlFlowHolder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/insn/holders/GeneralHolder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/insn/holders/GeneralHolder.java" afterDir="false" />
     </list>
@@ -117,6 +109,9 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\PYL\Projects\BytecodeImplGenerator" />
+    </key>
+    <key name="MoveMembersDialog.RECENTS_KEY">
+      <recent name="net.burningtnt.bcigenerator.insn.Parser" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="net.burningtnt.bcidemos.demo1" />
@@ -250,7 +245,7 @@
       <option name="presentableId" value="Default" />
       <updated>1700873267487</updated>
       <workItem from="1702637866630" duration="5947000" />
-      <workItem from="1702644770498" duration="5019000" />
+      <workItem from="1702644770498" duration="6358000" />
     </task>
     <servers />
   </component>

@@ -48,7 +48,7 @@ public final class GeneralHolder {
                 CommandBuilder.ofGeneralInsn("DCONST_1", Opcodes.DCONST_1),
                 CommandBuilder.ofIntInsn("BIPUSH", Opcodes.BIPUSH, Byte.MIN_VALUE, Byte.MAX_VALUE),
                 CommandBuilder.ofIntInsn("SIPUSH", Opcodes.SIPUSH, Short.MIN_VALUE, Short.MAX_VALUE),
-                CommandBuilder.literal("LDC").then(
+                CommandBuilder.ofLiteralCommand("LDC").then(
                         CommandBuilder.ofArgumentInsn("STRING", StringArgumentType.string(), String.class, MethodVisitor::visitLdcInsn)
                 ).then(
                         CommandBuilder.ofArgumentInsn("INT", IntegerArgumentType.integer(), Integer.class, MethodVisitor::visitLdcInsn)
@@ -128,9 +128,9 @@ public final class GeneralHolder {
                 CommandBuilder.ofGeneralInsn("LOR", Opcodes.LOR),
                 CommandBuilder.ofGeneralInsn("IXOR", Opcodes.IXOR),
                 CommandBuilder.ofGeneralInsn("LXOR", Opcodes.LXOR),
-                CommandBuilder.literal("IINC").then(
-                        CommandBuilder.argument("varIndex", IntegerArgumentType.integer()).then(
-                                CommandBuilder.argument("increment", IntegerArgumentType.integer()).executes(CommandBuilder.execute(context ->
+                CommandBuilder.ofLiteralCommand("IINC").then(
+                        CommandBuilder.ofArgumentCommand("varIndex", IntegerArgumentType.integer()).then(
+                                CommandBuilder.ofArgumentCommand("increment", IntegerArgumentType.integer()).executes(CommandBuilder.execute(context ->
                                         mv -> mv.visitIincInsn(context.getArgument("varIndex", Integer.class), context.getArgument("increment", Integer.class))
                                 ))
                         )

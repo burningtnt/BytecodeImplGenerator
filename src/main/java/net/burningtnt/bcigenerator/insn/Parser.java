@@ -15,6 +15,7 @@
 package net.burningtnt.bcigenerator.insn;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.burningtnt.bcigenerator.insn.holders.*;
 
@@ -24,7 +25,7 @@ public final class Parser {
     private Parser() {
     }
 
-    private static final CommandDispatcher<List<IInsn>> dispatcher = CommandBuilder.register(
+    private static final CommandDispatcher<List<IInsn>> dispatcher = registerCommandProviders(
             GeneralHolder.init(),
             ControlFlowHolder.init(),
             MiscHolder.init(),
@@ -36,5 +37,16 @@ public final class Parser {
 
     public static void apply(String code, List<IInsn> context) throws CommandSyntaxException {
         dispatcher.execute(code, context);
+    }
+
+    @SafeVarargs
+    private static CommandDispatcher<List<IInsn>> registerCommandProviders(List<LiteralArgumentBuilder<List<IInsn>>>... items) {
+        CommandDispatcher<List<IInsn>> dispatcher = new CommandDispatcher<>();
+        for (List<LiteralArgumentBuilder<List<IInsn>>> holder : items) {
+            for (LiteralArgumentBuilder<List<IInsn>> item : holder) {
+                dispatcher.register(item);
+            }
+        }
+        return dispatcher;
     }
 }
