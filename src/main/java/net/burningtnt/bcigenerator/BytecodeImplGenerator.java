@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Iterator;
+import java.util.stream.Stream;
 
 public final class BytecodeImplGenerator {
     private BytecodeImplGenerator() {
@@ -30,8 +32,26 @@ public final class BytecodeImplGenerator {
     public static void main(String[] args) throws IOException {
         for (String arg : args) {
             Path path = Paths.get(arg);
-            Files.write(path, process(Files.readAllBytes(path)));
+            if (Files.isDirectory(path)) {
+                try (Stream<Path> stream = Files.walk(path)) {
+                    Iterator<Path> iterator = stream.iterator();
+                    while (iterator.hasNext()) {
+                        Path current = iterator.next();
+                        if (Files.isRegularFile(current)) {
+                            process(current);
+                        }
+                    }
+                }
+            } else if (Files.isRegularFile(path)) {
+                process(path);
+            } else {
+                throw new IllegalStateException("Unknown path type: " + path + '.');
+            }
         }
+    }
+
+    public static void process(Path path) throws IOException {
+        Files.write(path, process(Files.readAllBytes(path)));
     }
 
     public static byte[] process(byte[] input) {

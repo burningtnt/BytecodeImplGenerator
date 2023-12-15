@@ -16,8 +16,7 @@ tasks.compileJava {
     dependsOn(rootProject.tasks.compileJava)
 
     val bytecodeClasses = listOf(
-            "net/burningtnt/bcidemos/demo0/Demo0",
-            "net/burningtnt/bcidemos/demo1/Demo1"
+            "net/burningtnt/bcidemos/"
     )
 
     doLast {
@@ -25,7 +24,7 @@ tasks.compileJava {
             classpath(rootProject.sourceSets["main"].runtimeClasspath)
             mainClass.set("net.burningtnt.bcigenerator.BytecodeImplGenerator")
             System.getProperty("bci.debug.address")?.let { address -> jvmArgs("-agentlib:jdwp=transport=dt_socket,server=n,address=$address,suspend=y") }
-            args(bytecodeClasses.stream().map { s -> project.layout.buildDirectory.file("classes/java/main/$s.class").get().asFile.path }.toList())
+            args(bytecodeClasses.stream().map { s -> project.layout.buildDirectory.file("classes/java/main/$s").get().asFile.path }.toList())
         }
     }
 

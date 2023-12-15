@@ -17,9 +17,7 @@ package net.burningtnt.bcigenerator.insn.holders;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import net.burningtnt.bcigenerator.arguments.JavaDescriptor;
-import net.burningtnt.bcigenerator.arguments.JavaDescriptorArgumentType;
-import net.burningtnt.bcigenerator.arguments.LabelIDArgumentType;
+import net.burningtnt.bcigenerator.arguments.*;
 import net.burningtnt.bcigenerator.insn.CommandBuilder;
 import net.burningtnt.bcigenerator.insn.IInsn;
 import org.objectweb.asm.Label;
@@ -45,10 +43,10 @@ public final class ControlFlowHolder {
         }
     }
 
-    private static final Map<MethodVisitor, Map<String, ManagedLabel>> labels = new HashMap<>();
+    private static final Map<MethodVisitor, Map<String, ManagedLabel>> labelCache = new HashMap<>();
 
     private static Label constructLabelInternal(MethodVisitor mv, String s, boolean defined) {
-        ManagedLabel sl = labels.computeIfAbsent(mv, it -> new HashMap<>()).computeIfAbsent(s, it -> new ManagedLabel(defined));
+        ManagedLabel sl = labelCache.computeIfAbsent(mv, it -> new HashMap<>()).computeIfAbsent(s, it -> new ManagedLabel(defined));
         sl.defined = sl.defined || defined;
         return sl.label;
     }
@@ -61,8 +59,16 @@ public final class ControlFlowHolder {
         return constructLabelInternal(mv, s, false);
     }
 
+    private static Label[] mapToLabels(MethodVisitor mv, List<?> list) {
+        Label[] labels = new Label[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            labels[i] = constructLabel(mv, (String) list.get(i));
+        }
+        return labels;
+    }
+
     public static void verify() {
-        for (Map.Entry<MethodVisitor, Map<String, ManagedLabel>> e1 : labels.entrySet()) {
+        for (Map.Entry<MethodVisitor, Map<String, ManagedLabel>> e1 : labelCache.entrySet()) {
             for (Map.Entry<String, ManagedLabel> e2 : e1.getValue().entrySet()) {
                 if (!e2.getValue().defined) {
                     throw new IllegalStateException(String.format("Label '%s' is used but not defined.", e2.getKey()));
@@ -73,23 +79,70 @@ public final class ControlFlowHolder {
 
     public static List<LiteralArgumentBuilder<List<IInsn>>> init() {
         return CommandBuilder.ofCommands(
-                CommandBuilder.ofLabel("IFEQ" , (mv, s) -> mv.visitJumpInsn(Opcodes.IFEQ, constructLabel(mv, s))),
-                CommandBuilder.ofLabel("IFNE" , (mv, s) -> mv.visitJumpInsn(Opcodes.IFNE, constructLabel(mv, s))),
-                CommandBuilder.ofLabel("IFLT" , (mv, s) -> mv.visitJumpInsn(Opcodes.IFLT, constructLabel(mv, s))),
-                CommandBuilder.ofLabel("IFGE" , (mv, s) -> mv.visitJumpInsn(Opcodes.IFGE, constructLabel(mv, s))),
-                CommandBuilder.ofLabel("IFGT" , (mv, s) -> mv.visitJumpInsn(Opcodes.IFGT, constructLabel(mv, s))),
-                CommandBuilder.ofLabel("IFLE" , (mv, s) -> mv.visitJumpInsn(Opcodes.IFLE, constructLabel(mv, s))),
-                CommandBuilder.ofLabel("IF_ICMPEQ" , (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ICMPEQ, constructLabel(mv, s))),
-                CommandBuilder.ofLabel("IF_ICMPNE" , (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ICMPNE, constructLabel(mv, s))),
-                CommandBuilder.ofLabel("IF_ICMPLT" , (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ICMPLT, constructLabel(mv, s))),
-                CommandBuilder.ofLabel("IF_ICMPGE" , (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ICMPGE, constructLabel(mv, s))),
-                CommandBuilder.ofLabel("IF_ICMPGT" , (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ICMPGT, constructLabel(mv, s))),
-                CommandBuilder.ofLabel("IF_ICMPLE" , (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ICMPLE, constructLabel(mv, s))),
-                CommandBuilder.ofLabel("IF_ACMPEQ" , (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ACMPEQ, constructLabel(mv, s))),
-                CommandBuilder.ofLabel("IF_ACMPNE" , (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ACMPNE, constructLabel(mv, s))),
-                CommandBuilder.ofLabel("GOTO" , (mv, s) -> mv.visitJumpInsn(Opcodes.GOTO, constructLabel(mv, s))),
-                CommandBuilder.ofLabel("JSR" , (mv, s) -> mv.visitJumpInsn(Opcodes.JSR, constructLabel(mv, s))),
+                CommandBuilder.ofLabel("IFEQ", (mv, s) -> mv.visitJumpInsn(Opcodes.IFEQ, constructLabel(mv, s))),
+                CommandBuilder.ofLabel("IFNE", (mv, s) -> mv.visitJumpInsn(Opcodes.IFNE, constructLabel(mv, s))),
+                CommandBuilder.ofLabel("IFLT", (mv, s) -> mv.visitJumpInsn(Opcodes.IFLT, constructLabel(mv, s))),
+                CommandBuilder.ofLabel("IFGE", (mv, s) -> mv.visitJumpInsn(Opcodes.IFGE, constructLabel(mv, s))),
+                CommandBuilder.ofLabel("IFGT", (mv, s) -> mv.visitJumpInsn(Opcodes.IFGT, constructLabel(mv, s))),
+                CommandBuilder.ofLabel("IFLE", (mv, s) -> mv.visitJumpInsn(Opcodes.IFLE, constructLabel(mv, s))),
+                CommandBuilder.ofLabel("IF_ICMPEQ", (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ICMPEQ, constructLabel(mv, s))),
+                CommandBuilder.ofLabel("IF_ICMPNE", (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ICMPNE, constructLabel(mv, s))),
+                CommandBuilder.ofLabel("IF_ICMPLT", (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ICMPLT, constructLabel(mv, s))),
+                CommandBuilder.ofLabel("IF_ICMPGE", (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ICMPGE, constructLabel(mv, s))),
+                CommandBuilder.ofLabel("IF_ICMPGT", (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ICMPGT, constructLabel(mv, s))),
+                CommandBuilder.ofLabel("IF_ICMPLE", (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ICMPLE, constructLabel(mv, s))),
+                CommandBuilder.ofLabel("IF_ACMPEQ", (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ACMPEQ, constructLabel(mv, s))),
+                CommandBuilder.ofLabel("IF_ACMPNE", (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ACMPNE, constructLabel(mv, s))),
+                CommandBuilder.ofLabel("GOTO", (mv, s) -> mv.visitJumpInsn(Opcodes.GOTO, constructLabel(mv, s))),
+                CommandBuilder.ofLabel("JSR", (mv, s) -> mv.visitJumpInsn(Opcodes.JSR, constructLabel(mv, s))),
                 CommandBuilder.ofVarInsn("RET", Opcodes.RET),
+
+                CommandBuilder.literal("TABLESWITCH").then(
+                        CommandBuilder.argument("minValue", IntegerArgumentType.integer()).then(
+                                CommandBuilder.argument("branches", ListArgumentType.immutableList(LabelIDArgumentType.label())).then(
+                                        CommandBuilder.argument("defaultBranch", LabelIDArgumentType.label()).executes(CommandBuilder.execute(context ->
+                                                mv -> {
+                                                    int minValue = context.getArgument("minValue", Integer.class);
+                                                    Label[] labels = mapToLabels(mv, context.getArgument("branches", List.class));
+                                                    mv.visitTableSwitchInsn(
+                                                            minValue,
+                                                            minValue + labels.length - 1,
+                                                            constructLabel(mv, context.getArgument("defaultBranch", String.class)),
+                                                            labels
+                                                    );
+                                                }
+                                        ))
+                                )
+                        )
+                ),
+                CommandBuilder.literal("LOOKUPSWITCH").then(
+                        CommandBuilder.argument("branches", MapArgumentType.immutableMap(IntegerArgumentType.integer(), LabelIDArgumentType.label())).then(
+                                CommandBuilder.argument("defaultBranch", LabelIDArgumentType.label()).executes(CommandBuilder.execute(context ->
+                                        mv -> {
+                                            Map<?, ?> map = context.getArgument("branches", Map.class);
+                                            Label[] labels = new Label[map.size()];
+                                            int[] keys = new int[map.size()];
+                                            int index = 0;
+                                            for (Map.Entry<?, ?> entry : map.entrySet()) {
+                                                keys[index] = (Integer) entry.getKey();
+                                                labels[index] = constructLabel(mv, (String) entry.getValue());
+                                                index++;
+                                            }
+
+                                            mv.visitLookupSwitchInsn(
+                                                    constructLabel(mv, context.getArgument("defaultBranch", String.class)),
+                                                    keys, labels
+                                            );
+                                        }
+                                ))
+                        )
+                ),
+
+                CommandBuilder.literal("FRAME").then(
+                        CommandBuilder.literal("SAME").executes(CommandBuilder.execute(context ->
+                                mv -> mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null)
+                        ))
+                ),
 
                 CommandBuilder.ofArgumentInsn("LABEL", LabelIDArgumentType.label(), String.class, (mv, s) -> mv.visitLabel(defineLabel(mv, s))),
                 CommandBuilder.literal("LOCALVARIABLE").then(

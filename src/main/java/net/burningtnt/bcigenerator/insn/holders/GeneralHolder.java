@@ -50,6 +50,8 @@ public final class GeneralHolder {
                 CommandBuilder.ofIntInsn("SIPUSH", Opcodes.SIPUSH, Short.MIN_VALUE, Short.MAX_VALUE),
                 CommandBuilder.literal("LDC").then(
                         CommandBuilder.ofArgumentInsn("STRING", StringArgumentType.string(), String.class, MethodVisitor::visitLdcInsn)
+                ).then(
+                        CommandBuilder.ofArgumentInsn("INT", IntegerArgumentType.integer(), Integer.class, MethodVisitor::visitLdcInsn)
                 ),
 
                 CommandBuilder.ofVarInsn("ILOAD", Opcodes.ILOAD),
