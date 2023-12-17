@@ -16,7 +16,7 @@ package net.burningtnt.bcigenerator.visitors;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.burningtnt.bcigenerator.insn.IInsn;
-import net.burningtnt.bcigenerator.insn.Parser;
+import net.burningtnt.bcigenerator.insn.CommandParser;
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Opcodes;
 
@@ -34,7 +34,7 @@ public class BytecodeInsnAnnotationVistor extends AnnotationVisitor {
     public void visit(String name, Object value) {
         if ((name == null || "value".equals(name)) && value instanceof String) {
             try {
-                Parser.apply((String) value, this.insnList);
+                CommandParser.parse((String) value, this.insnList);
             } catch (CommandSyntaxException e) {
                 throw new IllegalStateException(String.format("Illegal command: %s.", value), e);
             }

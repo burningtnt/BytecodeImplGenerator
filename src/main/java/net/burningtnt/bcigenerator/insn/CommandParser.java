@@ -18,14 +18,15 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.burningtnt.bcigenerator.insn.holders.*;
+import org.objectweb.asm.MethodVisitor;
 
 import java.util.List;
 
-public final class Parser {
-    private Parser() {
+public final class CommandParser {
+    private CommandParser() {
     }
 
-    private static final CommandDispatcher<List<IInsn>> dispatcher = registerCommandProviders(
+    private static final CommandDispatcher<List<IInsn>> dispatcher = initCommandDispatcher(
             GeneralHolder.init(),
             ControlFlowHolder.init(),
             MiscHolder.init(),
@@ -35,12 +36,19 @@ public final class Parser {
             TypeHolder.init()
     );
 
-    public static void apply(String code, List<IInsn> context) throws CommandSyntaxException {
+    public static void parse(String code, List<IInsn> context) throws CommandSyntaxException {
         dispatcher.execute(code, context);
     }
 
+    public static void write(MethodVisitor mv, List<IInsn> context) {
+        for (IInsn insn : context) {
+            insn.write(mv);
+        }
+        ControlFlowHolder.verify(mv);
+    }
+
     @SafeVarargs
-    private static CommandDispatcher<List<IInsn>> registerCommandProviders(List<LiteralArgumentBuilder<List<IInsn>>>... items) {
+    private static CommandDispatcher<List<IInsn>> initCommandDispatcher(List<LiteralArgumentBuilder<List<IInsn>>>... items) {
         CommandDispatcher<List<IInsn>> dispatcher = new CommandDispatcher<>();
         for (List<LiteralArgumentBuilder<List<IInsn>>> holder : items) {
             for (LiteralArgumentBuilder<List<IInsn>> item : holder) {

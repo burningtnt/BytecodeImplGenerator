@@ -27,6 +27,7 @@ import org.objectweb.asm.Opcodes;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public final class ControlFlowHolder {
     private ControlFlowHolder() {
@@ -41,61 +42,50 @@ public final class ControlFlowHolder {
             this.label = new Label();
             this.defined = defined;
         }
+
+        public Label define() {
+            this.defined = true;
+            return this.label;
+        }
     }
 
     private static final Map<MethodVisitor, Map<String, ManagedLabel>> labelCache = new HashMap<>();
 
-    private static Label constructLabelInternal(MethodVisitor mv, String s, boolean defined) {
-        ManagedLabel sl = labelCache.computeIfAbsent(mv, it -> new HashMap<>()).computeIfAbsent(s, it -> new ManagedLabel(defined));
-        sl.defined = sl.defined || defined;
-        return sl.label;
-    }
-
     private static Label defineLabel(MethodVisitor mv, String s) {
-        return constructLabelInternal(mv, s, true);
+        return labelCache.computeIfAbsent(mv, it -> new ConcurrentHashMap<>()).computeIfAbsent(s, it -> new ManagedLabel(true)).define();
     }
 
-    private static Label constructLabel(MethodVisitor mv, String s) {
-        return constructLabelInternal(mv, s, false);
+    private static Label userLabel(MethodVisitor mv, String s) {
+        return labelCache.computeIfAbsent(mv, it -> new ConcurrentHashMap<>()).computeIfAbsent(s, it -> new ManagedLabel(false)).label;
     }
 
-    private static Label[] mapToLabels(MethodVisitor mv, List<?> list) {
-        Label[] labels = new Label[list.size()];
-        for (int i = 0; i < list.size(); i++) {
-            labels[i] = constructLabel(mv, (String) list.get(i));
-        }
-        return labels;
-    }
-
-    public static void verify() {
-        for (Map.Entry<MethodVisitor, Map<String, ManagedLabel>> e1 : labelCache.entrySet()) {
-            for (Map.Entry<String, ManagedLabel> e2 : e1.getValue().entrySet()) {
-                if (!e2.getValue().defined) {
-                    throw new IllegalStateException(String.format("Label '%s' is used but not defined.", e2.getKey()));
-                }
+    public static void verify(MethodVisitor mv) {
+        for (Map.Entry<String, ManagedLabel> entry : labelCache.get(mv).entrySet()) {
+            if (!entry.getValue().defined) {
+                throw new IllegalStateException(String.format("Label '%s' is used but not defined.", entry.getKey()));
             }
         }
-        labelCache.clear();
+        labelCache.get(mv).clear();
     }
 
     public static List<LiteralArgumentBuilder<List<IInsn>>> init() {
         return CommandBuilder.ofCommands(
-                CommandBuilder.ofLabelInsn("IFEQ", (mv, s) -> mv.visitJumpInsn(Opcodes.IFEQ, constructLabel(mv, s))),
-                CommandBuilder.ofLabelInsn("IFNE", (mv, s) -> mv.visitJumpInsn(Opcodes.IFNE, constructLabel(mv, s))),
-                CommandBuilder.ofLabelInsn("IFLT", (mv, s) -> mv.visitJumpInsn(Opcodes.IFLT, constructLabel(mv, s))),
-                CommandBuilder.ofLabelInsn("IFGE", (mv, s) -> mv.visitJumpInsn(Opcodes.IFGE, constructLabel(mv, s))),
-                CommandBuilder.ofLabelInsn("IFGT", (mv, s) -> mv.visitJumpInsn(Opcodes.IFGT, constructLabel(mv, s))),
-                CommandBuilder.ofLabelInsn("IFLE", (mv, s) -> mv.visitJumpInsn(Opcodes.IFLE, constructLabel(mv, s))),
-                CommandBuilder.ofLabelInsn("IF_ICMPEQ", (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ICMPEQ, constructLabel(mv, s))),
-                CommandBuilder.ofLabelInsn("IF_ICMPNE", (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ICMPNE, constructLabel(mv, s))),
-                CommandBuilder.ofLabelInsn("IF_ICMPLT", (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ICMPLT, constructLabel(mv, s))),
-                CommandBuilder.ofLabelInsn("IF_ICMPGE", (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ICMPGE, constructLabel(mv, s))),
-                CommandBuilder.ofLabelInsn("IF_ICMPGT", (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ICMPGT, constructLabel(mv, s))),
-                CommandBuilder.ofLabelInsn("IF_ICMPLE", (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ICMPLE, constructLabel(mv, s))),
-                CommandBuilder.ofLabelInsn("IF_ACMPEQ", (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ACMPEQ, constructLabel(mv, s))),
-                CommandBuilder.ofLabelInsn("IF_ACMPNE", (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ACMPNE, constructLabel(mv, s))),
-                CommandBuilder.ofLabelInsn("GOTO", (mv, s) -> mv.visitJumpInsn(Opcodes.GOTO, constructLabel(mv, s))),
-                CommandBuilder.ofLabelInsn("JSR", (mv, s) -> mv.visitJumpInsn(Opcodes.JSR, constructLabel(mv, s))),
+                CommandBuilder.ofLabelInsn("IFEQ", (mv, s) -> mv.visitJumpInsn(Opcodes.IFEQ, userLabel(mv, s))),
+                CommandBuilder.ofLabelInsn("IFNE", (mv, s) -> mv.visitJumpInsn(Opcodes.IFNE, userLabel(mv, s))),
+                CommandBuilder.ofLabelInsn("IFLT", (mv, s) -> mv.visitJumpInsn(Opcodes.IFLT, userLabel(mv, s))),
+                CommandBuilder.ofLabelInsn("IFGE", (mv, s) -> mv.visitJumpInsn(Opcodes.IFGE, userLabel(mv, s))),
+                CommandBuilder.ofLabelInsn("IFGT", (mv, s) -> mv.visitJumpInsn(Opcodes.IFGT, userLabel(mv, s))),
+                CommandBuilder.ofLabelInsn("IFLE", (mv, s) -> mv.visitJumpInsn(Opcodes.IFLE, userLabel(mv, s))),
+                CommandBuilder.ofLabelInsn("IF_ICMPEQ", (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ICMPEQ, userLabel(mv, s))),
+                CommandBuilder.ofLabelInsn("IF_ICMPNE", (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ICMPNE, userLabel(mv, s))),
+                CommandBuilder.ofLabelInsn("IF_ICMPLT", (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ICMPLT, userLabel(mv, s))),
+                CommandBuilder.ofLabelInsn("IF_ICMPGE", (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ICMPGE, userLabel(mv, s))),
+                CommandBuilder.ofLabelInsn("IF_ICMPGT", (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ICMPGT, userLabel(mv, s))),
+                CommandBuilder.ofLabelInsn("IF_ICMPLE", (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ICMPLE, userLabel(mv, s))),
+                CommandBuilder.ofLabelInsn("IF_ACMPEQ", (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ACMPEQ, userLabel(mv, s))),
+                CommandBuilder.ofLabelInsn("IF_ACMPNE", (mv, s) -> mv.visitJumpInsn(Opcodes.IF_ACMPNE, userLabel(mv, s))),
+                CommandBuilder.ofLabelInsn("GOTO", (mv, s) -> mv.visitJumpInsn(Opcodes.GOTO, userLabel(mv, s))),
+                CommandBuilder.ofLabelInsn("JSR", (mv, s) -> mv.visitJumpInsn(Opcodes.JSR, userLabel(mv, s))),
                 CommandBuilder.ofVarInsn("RET", Opcodes.RET),
 
                 CommandBuilder.ofLiteralCommand("TABLESWITCH").then(
@@ -104,11 +94,15 @@ public final class ControlFlowHolder {
                                         CommandBuilder.ofArgumentCommand("defaultBranch", LabelIDArgumentType.label()).executes(CommandBuilder.execute(context ->
                                                 mv -> {
                                                     int minValue = context.getArgument("minValue", Integer.class);
-                                                    Label[] labels = mapToLabels(mv, context.getArgument("branches", List.class));
+                                                    List<?> list = context.getArgument("branches", List.class);
+                                                    Label[] labels = new Label[list.size()];
+                                                    for (int i = 0; i < list.size(); i++) {
+                                                        labels[i] = userLabel(mv, (String) list.get(i));
+                                                    }
                                                     mv.visitTableSwitchInsn(
                                                             minValue,
                                                             minValue + labels.length - 1,
-                                                            constructLabel(mv, context.getArgument("defaultBranch", String.class)),
+                                                            userLabel(mv, context.getArgument("defaultBranch", String.class)),
                                                             labels
                                                     );
                                                 }
@@ -126,12 +120,12 @@ public final class ControlFlowHolder {
                                             int index = 0;
                                             for (Map.Entry<?, ?> entry : map.entrySet()) {
                                                 keys[index] = (Integer) entry.getKey();
-                                                labels[index] = constructLabel(mv, (String) entry.getValue());
+                                                labels[index] = userLabel(mv, (String) entry.getValue());
                                                 index++;
                                             }
 
                                             mv.visitLookupSwitchInsn(
-                                                    constructLabel(mv, context.getArgument("defaultBranch", String.class)),
+                                                    userLabel(mv, context.getArgument("defaultBranch", String.class)),
                                                     keys, labels
                                             );
                                         }
@@ -156,8 +150,8 @@ public final class ControlFlowHolder {
                                                                         context.getArgument("name", String.class),
                                                                         context.getArgument("desc", JavaDescriptor.class).getDesc(),
                                                                         null,
-                                                                        constructLabel(mv, context.getArgument("begin", String.class)),
-                                                                        constructLabel(mv, context.getArgument("end", String.class)),
+                                                                        userLabel(mv, context.getArgument("begin", String.class)),
+                                                                        userLabel(mv, context.getArgument("end", String.class)),
                                                                         context.getArgument("index", Integer.class)
                                                                 )
                                                         ))
