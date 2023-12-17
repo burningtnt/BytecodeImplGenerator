@@ -6,11 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="0ee6a74a-7b6e-4bb1-b161-18dc9d85aa2e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/api/BytecodeImplError.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/api/BytecodeImplError.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/insn/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/insn/CommandParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/insn/CommandBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/insn/CommandBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/insn/holders/ControlFlowHolder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/insn/holders/ControlFlowHolder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/visitors/BytecodeInsnAnnotationVistor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/visitors/BytecodeInsnAnnotationVistor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/visitors/BytecodeMethodVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/visitors/BytecodeMethodVisitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/insn/holders/TypeHolder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/insn/holders/TypeHolder.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,7 +76,7 @@
   "keyToString": {
     "ASKED_ADD_EXTERNAL_FILES": "true",
     "Gradle.BytecodeImplGenerator [:BytecodeImplGenerator.main()].executor": "Debug",
-    "Gradle.BytecodeImplGenerator [build].executor": "Debug",
+    "Gradle.BytecodeImplGenerator [build].executor": "Run",
     "Gradle.BytecodeImplGenerator [test].executor": "Debug",
     "Gradle.BytecodeImplGenerator:impl [:impl:Demo0.main()].executor": "Run",
     "Gradle.BytecodeImplGenerator:impl [:impl:Demo1.main()].executor": "Run",
@@ -112,6 +110,10 @@
       <recent name="D:\PYL\Projects\BytecodeImplGenerator" />
     </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
+      <recent name="net.burningtnt.bcigenerator.insn.CommandBuilder" />
+      <recent name="net.burningtnt.bcigenerator.insn.holders.GeneralHolder" />
+      <recent name="net.burningtnt.bcigenerator.insn.holders.MethodHolder" />
+      <recent name="net.burningtnt.bcigenerator.insn.holders.FieldHolder" />
       <recent name="net.burningtnt.bcigenerator.insn.Parser" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
@@ -127,10 +129,10 @@
       <recent name="net.burningtnt.bcigenerator.insn.holders" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.BytecodeImplGenerator [build]">
+  <component name="RunManager" selected="Gradle.DemoTest">
     <configuration name="Debug BCI" type="CompoundRunConfigurationType">
-      <toRun name="BytecodeImplGenerator [test]" type="GradleRunConfiguration" />
-      <toRun name="Debug BCI" type="Remote" />
+      <toRun name="BytecodeImplGenerator [test]  [Internal]" type="GradleRunConfiguration" />
+      <toRun name="Debug BCI [Internal]" type="Remote" />
       <method v="2" />
     </configuration>
     <configuration name="BytecodeImplGenerator [build]" type="GradleRunConfiguration" factoryName="Gradle" nameIsGenerated="true">
@@ -155,7 +157,7 @@
       <RunAsTest>false</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="BytecodeImplGenerator [test]  [Internal]" type="GradleRunConfiguration" factoryName="Gradle">
+    <configuration name="BytecodeImplGenerator [debug]" type="GradleRunConfiguration" factoryName="Gradle">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -218,7 +220,7 @@
     <list>
       <item itemvalue="Compound.Debug BCI" />
       <item itemvalue="Gradle.BytecodeImplGenerator [build]" />
-      <item itemvalue="Gradle.BytecodeImplGenerator [test]  [Internal]" />
+      <item itemvalue="Gradle.BytecodeImplGenerator [debug]" />
       <item itemvalue="Gradle.DemoTest" />
       <item itemvalue="Remote JVM Debug.Debug BCI [Internal]" />
     </list>
@@ -247,7 +249,7 @@
       <updated>1700873267487</updated>
       <workItem from="1702637866630" duration="5947000" />
       <workItem from="1702644770498" duration="8803000" />
-      <workItem from="1702800092386" duration="1341000" />
+      <workItem from="1702800092386" duration="4920000" />
     </task>
     <servers />
   </component>

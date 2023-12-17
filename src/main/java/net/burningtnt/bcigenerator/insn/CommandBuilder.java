@@ -24,6 +24,7 @@ import net.burningtnt.bcigenerator.arguments.JavaDescriptor;
 import net.burningtnt.bcigenerator.arguments.JavaDescriptorArgumentType;
 import net.burningtnt.bcigenerator.arguments.LabelIDArgumentType;
 import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -78,6 +79,10 @@ public final class CommandBuilder {
         return ofArgumentInsn(op, LabelIDArgumentType.label(), String.class, consumer);
     }
 
+    public static LiteralArgumentBuilder<List<IInsn>> ofIntInsn(String op, int opcode) {
+        return ofIntInsn(op, opcode, Integer.MIN_VALUE, Integer.MIN_VALUE);
+    }
+
     public static LiteralArgumentBuilder<List<IInsn>> ofIntInsn(String op, int opcode, int min, int max) {
         return ofArgumentInsn(op, IntegerArgumentType.integer(min, max), Integer.class, (mv, integer) -> mv.visitIntInsn(opcode, integer));
     }
@@ -92,5 +97,9 @@ public final class CommandBuilder {
 
     public static LiteralArgumentBuilder<List<IInsn>> ofMethodInsn(String op, int opcode, boolean isInterface) {
         return ofArgumentInsn(op, JavaDescriptorArgumentType.method(), JavaDescriptor.class, (mv, desc) -> mv.visitMethodInsn(opcode, desc.getOwner(), desc.getName(), desc.getDesc(), isInterface));
+    }
+
+    public static LiteralArgumentBuilder<List<IInsn>> ofTypeInsn(String op, int opcode) {
+        return ofArgumentInsn(op, JavaDescriptorArgumentType.clazz(), JavaDescriptor.class, (mv, desc) -> mv.visitTypeInsn(opcode, desc.getOwner()));
     }
 }

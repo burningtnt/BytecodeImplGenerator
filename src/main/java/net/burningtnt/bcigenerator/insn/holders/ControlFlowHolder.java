@@ -133,6 +133,9 @@ public final class ControlFlowHolder {
                         )
                 ),
 
+                CommandBuilder.ofLabelInsn("IFNULL", (mv, s) -> mv.visitJumpInsn(Opcodes.IFNULL, userLabel(mv, s))),
+                CommandBuilder.ofLabelInsn("IFNONNULL", (mv, s) -> mv.visitJumpInsn(Opcodes.IFNONNULL, userLabel(mv, s))),
+
                 CommandBuilder.ofLiteralCommand("FRAME").then(
                         CommandBuilder.ofLiteralCommand("SAME").executes(CommandBuilder.execute(context ->
                                 mv -> mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null)
