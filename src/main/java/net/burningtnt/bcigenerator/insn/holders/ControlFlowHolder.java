@@ -145,7 +145,7 @@ public final class ControlFlowHolder {
                 CommandBuilder.ofArgumentInsn("LABEL", LabelIDArgumentType.label(), String.class, (mv, s) -> mv.visitLabel(defineLabel(mv, s))),
                 CommandBuilder.ofLiteralCommand("LOCALVARIABLE").then(
                         CommandBuilder.ofArgumentCommand("name", StringArgumentType.string()).then(
-                                CommandBuilder.ofArgumentCommand("desc", JavaDescriptorArgumentType.single()).then(
+                                CommandBuilder.ofArgumentCommand("desc", JavaDescriptorArgumentType.desc()).then(
                                         CommandBuilder.ofArgumentCommand("begin", LabelIDArgumentType.label()).then(
                                                 CommandBuilder.ofArgumentCommand("end", LabelIDArgumentType.label()).then(
                                                         CommandBuilder.ofArgumentCommand("index", IntegerArgumentType.integer()).executes(CommandBuilder.execute(context ->

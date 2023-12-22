@@ -6,9 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="0ee6a74a-7b6e-4bb1-b161-18dc9d85aa2e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/insn/CommandBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/insn/CommandBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/insn/holders/ControlFlowHolder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/insn/holders/ControlFlowHolder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/insn/holders/TypeHolder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/insn/holders/TypeHolder.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -129,7 +126,7 @@
       <recent name="net.burningtnt.bcigenerator.insn.holders" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.DemoTest">
+  <component name="RunManager" selected="Gradle.BytecodeImplGenerator [build]">
     <configuration name="Debug BCI" type="CompoundRunConfigurationType">
       <toRun name="BytecodeImplGenerator [test]  [Internal]" type="GradleRunConfiguration" />
       <toRun name="Debug BCI [Internal]" type="Remote" />
@@ -249,7 +246,7 @@
       <updated>1700873267487</updated>
       <workItem from="1702637866630" duration="5947000" />
       <workItem from="1702644770498" duration="8803000" />
-      <workItem from="1702800092386" duration="4920000" />
+      <workItem from="1702800092386" duration="7790000" />
     </task>
     <servers />
   </component>

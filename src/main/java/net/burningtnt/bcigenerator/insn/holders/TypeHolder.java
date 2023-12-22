@@ -16,7 +16,9 @@ public final class TypeHolder {
 
     public static List<LiteralArgumentBuilder<List<IInsn>>> init() {
         return CommandBuilder.ofCommands(
-                CommandBuilder.ofTypeInsn("NEW", Opcodes.NEW),
+                CommandBuilder.ofArgumentInsn(
+                        "NEW", JavaDescriptorArgumentType.clazz(), JavaDescriptor.class, (mv, desc) -> mv.visitTypeInsn(Opcodes.NEW, desc.getOwner())
+                ),
                 CommandBuilder.ofLiteralCommand("NEWARRAY").then(
                         CommandBuilder.ofIntInsn("BOOLEAN", Opcodes.T_BOOLEAN)
                 ).then(
@@ -34,11 +36,11 @@ public final class TypeHolder {
                 ).then(
                         CommandBuilder.ofIntInsn("LONG", Opcodes.T_LONG)
                 ),
-                CommandBuilder.ofTypeInsn("ANEWARRAY", Opcodes.ANEWARRAY),
+                CommandBuilder.ofClassTypeInsn("ANEWARRAY", Opcodes.ANEWARRAY),
                 CommandBuilder.ofIntInsn("ARRAYLENGTH", Opcodes.ARRAYLENGTH),
                 CommandBuilder.ofIntInsn("ATHROW", Opcodes.ATHROW),
-                CommandBuilder.ofTypeInsn("CHECKCAST", Opcodes.CHECKCAST),
-                CommandBuilder.ofTypeInsn("INSTANCEOF", Opcodes.INSTANCEOF),
+                CommandBuilder.ofClassTypeInsn("CHECKCAST", Opcodes.CHECKCAST),
+                CommandBuilder.ofClassTypeInsn("INSTANCEOF", Opcodes.INSTANCEOF),
                 CommandBuilder.ofGeneralInsn("MONITORENTER", Opcodes.MONITORENTER),
                 CommandBuilder.ofGeneralInsn("MONITOREXIT", Opcodes.MONITOREXIT),
                 CommandBuilder.ofLiteralCommand("MULTIANEWARRAY").then(

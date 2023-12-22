@@ -14,9 +14,13 @@
  */
 package net.burningtnt.bcigenerator.insn.holders;
 
+import com.mojang.brigadier.arguments.DoubleArgumentType;
+import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import net.burningtnt.bcigenerator.arguments.JavaDescriptor;
+import net.burningtnt.bcigenerator.arguments.JavaDescriptorArgumentType;
 import net.burningtnt.bcigenerator.insn.CommandBuilder;
 import net.burningtnt.bcigenerator.insn.IInsn;
 import org.objectweb.asm.MethodVisitor;
@@ -49,9 +53,15 @@ public final class GeneralHolder {
                 CommandBuilder.ofIntInsn("BIPUSH", Opcodes.BIPUSH, Byte.MIN_VALUE, Byte.MAX_VALUE),
                 CommandBuilder.ofIntInsn("SIPUSH", Opcodes.SIPUSH, Short.MIN_VALUE, Short.MAX_VALUE),
                 CommandBuilder.ofLiteralCommand("LDC").then(
+                        CommandBuilder.ofArgumentInsn("INT", IntegerArgumentType.integer(), Integer.class, MethodVisitor::visitLdcInsn)
+                ).then(
+                        CommandBuilder.ofArgumentInsn("FLOAT", FloatArgumentType.floatArg(), Float.class, MethodVisitor::visitLdcInsn)
+                ).then(
+                        CommandBuilder.ofArgumentInsn("DOUBLE", DoubleArgumentType.doubleArg(), Double.class, MethodVisitor::visitLdcInsn)
+                ).then(
                         CommandBuilder.ofArgumentInsn("STRING", StringArgumentType.string(), String.class, MethodVisitor::visitLdcInsn)
                 ).then(
-                        CommandBuilder.ofArgumentInsn("INT", IntegerArgumentType.integer(), Integer.class, MethodVisitor::visitLdcInsn)
+                        CommandBuilder.ofArgumentInsn("CLASS", JavaDescriptorArgumentType.desc(), JavaDescriptor.class, (mv, desc) -> mv.visitLdcInsn(desc.getDesc()))
                 ),
 
                 CommandBuilder.ofVarInsn("ILOAD", Opcodes.ILOAD),
