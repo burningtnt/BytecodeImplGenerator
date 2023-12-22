@@ -15,8 +15,11 @@
 package net.burningtnt.bcigenerator.insn.holders;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import net.burningtnt.bcigenerator.arguments.desc.JavaDescriptor;
+import net.burningtnt.bcigenerator.arguments.desc.JavaDescriptorArgumentType;
 import net.burningtnt.bcigenerator.insn.CommandBuilder;
 import net.burningtnt.bcigenerator.insn.IInsn;
+import org.objectweb.asm.Handle;
 import org.objectweb.asm.Opcodes;
 
 import java.util.List;
@@ -31,7 +34,24 @@ public final class MethodHolder {
                 CommandBuilder.ofMethodInsn("INVOKESPECIAL", Opcodes.INVOKESPECIAL, false),
                 CommandBuilder.ofMethodInsn("INVOKESTATIC", Opcodes.INVOKESTATIC, false),
                 CommandBuilder.ofMethodInsn("INVOKEINTERFACE", Opcodes.INVOKEINTERFACE, true),
-                CommandBuilder.ofMethodInsn("INVOKEINTERFACESTATIC", Opcodes.INVOKESTATIC, true)
+                CommandBuilder.ofMethodInsn("INVOKEINTERFACESTATIC", Opcodes.INVOKESTATIC, true),
+
+                CommandBuilder.ofLiteralCommand("INVOKEDYNAMIC").then(
+                        CommandBuilder.ofArgumentCommand("require", JavaDescriptorArgumentType.method()).then(
+                                CommandBuilder.ofArgumentCommand("bootstrap", JavaDescriptorArgumentType.method()).executes(CommandBuilder.execute(context ->
+                                        mv -> {
+                                            JavaDescriptor require = context.getArgument("require", JavaDescriptor.class);
+                                            JavaDescriptor bootstrap = context.getArgument("bootstrap", JavaDescriptor.class);
+
+                                            mv.visitInvokeDynamicInsn(require.getName(), require.getDesc(), new Handle(
+                                                    Opcodes.H_INVOKESTATIC,
+                                                    bootstrap.getOwner(), bootstrap.getName(), bootstrap.getDesc(),
+                                                    false
+                                            ));
+                                        }
+                                ))
+                        )
+                )
         );
     }
 }
