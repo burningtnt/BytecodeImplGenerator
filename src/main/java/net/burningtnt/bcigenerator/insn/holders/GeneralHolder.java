@@ -14,17 +14,16 @@
  */
 package net.burningtnt.bcigenerator.insn.holders;
 
-import com.mojang.brigadier.arguments.DoubleArgumentType;
-import com.mojang.brigadier.arguments.FloatArgumentType;
-import com.mojang.brigadier.arguments.IntegerArgumentType;
-import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.arguments.*;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import net.burningtnt.bcigenerator.arguments.JavaDescriptor;
-import net.burningtnt.bcigenerator.arguments.JavaDescriptorArgumentType;
+import net.burningtnt.bcigenerator.arguments.constant.ConstantArgumentType;
+import net.burningtnt.bcigenerator.arguments.desc.JavaDescriptor;
+import net.burningtnt.bcigenerator.arguments.desc.JavaDescriptorArgumentType;
 import net.burningtnt.bcigenerator.insn.CommandBuilder;
 import net.burningtnt.bcigenerator.insn.IInsn;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
 
 import java.util.List;
 
@@ -53,15 +52,17 @@ public final class GeneralHolder {
                 CommandBuilder.ofIntInsn("BIPUSH", Opcodes.BIPUSH, Byte.MIN_VALUE, Byte.MAX_VALUE),
                 CommandBuilder.ofIntInsn("SIPUSH", Opcodes.SIPUSH, Short.MIN_VALUE, Short.MAX_VALUE),
                 CommandBuilder.ofLiteralCommand("LDC").then(
-                        CommandBuilder.ofArgumentInsn("INT", IntegerArgumentType.integer(), Integer.class, MethodVisitor::visitLdcInsn)
+                        CommandBuilder.ofArgumentInsn(ConstantArgumentType.of(ConstantArgumentType.ConstantType.INT, IntegerArgumentType.integer()), Integer.class, MethodVisitor::visitLdcInsn)
                 ).then(
-                        CommandBuilder.ofArgumentInsn("FLOAT", FloatArgumentType.floatArg(), Float.class, MethodVisitor::visitLdcInsn)
+                        CommandBuilder.ofArgumentInsn(ConstantArgumentType.of(ConstantArgumentType.ConstantType.FLOAT, FloatArgumentType.floatArg()), Float.class, MethodVisitor::visitLdcInsn)
                 ).then(
-                        CommandBuilder.ofArgumentInsn("DOUBLE", DoubleArgumentType.doubleArg(), Double.class, MethodVisitor::visitLdcInsn)
+                        CommandBuilder.ofArgumentInsn(ConstantArgumentType.of(ConstantArgumentType.ConstantType.LONG, LongArgumentType.longArg()), Long.class, MethodVisitor::visitLdcInsn)
                 ).then(
-                        CommandBuilder.ofArgumentInsn("STRING", StringArgumentType.string(), String.class, MethodVisitor::visitLdcInsn)
+                        CommandBuilder.ofArgumentInsn(ConstantArgumentType.of(ConstantArgumentType.ConstantType.DOUBLE, DoubleArgumentType.doubleArg()), Double.class, MethodVisitor::visitLdcInsn)
                 ).then(
-                        CommandBuilder.ofArgumentInsn("CLASS", JavaDescriptorArgumentType.desc(), JavaDescriptor.class, (mv, desc) -> mv.visitLdcInsn(desc.getDesc()))
+                        CommandBuilder.ofArgumentInsn(ConstantArgumentType.of(ConstantArgumentType.ConstantType.STRING, StringArgumentType.string()), String.class, MethodVisitor::visitLdcInsn)
+                ).then(
+                        CommandBuilder.ofArgumentInsn(ConstantArgumentType.of(ConstantArgumentType.ConstantType.TYPE, JavaDescriptorArgumentType.desc()), JavaDescriptor.class, (mv, desc) -> mv.visitLdcInsn(Type.getType(desc.getDesc())))
                 ),
 
                 CommandBuilder.ofVarInsn("ILOAD", Opcodes.ILOAD),

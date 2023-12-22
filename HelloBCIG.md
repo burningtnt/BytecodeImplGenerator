@@ -38,7 +38,7 @@ In general, our BCIIs should be coded in following steps:
 So, these are the BCIIs.
 ```BCII
 GETSTATIC Ljava/lang/System;out:Ljava/io/PrintStream;
-LDC STRING "Hello BCIG!"
+LDC (STRING "Hello BCIG!")
 INVOKEVIRTUAL Ljava/io/PrintStream;println(Ljava/lang/String;)V
 RETURN
 ```
@@ -47,7 +47,7 @@ In order to make this method legal in VM Class Format, we should insert these BC
 ```diff
 +LABEL METHOD_HEAD
 GETSTATIC Ljava/lang/System;out:Ljava/io/PrintStream;
-LDC STRING "Hello BCIG!"
+LDC (STRING "Hello BCIG!")
 INVOKEVIRTUAL Ljava/io/PrintStream;println(Ljava/lang/String;)V
 +LABEL METHOD_TAIL
 RETURN

@@ -2,8 +2,8 @@ package net.burningtnt.bcigenerator.insn.holders;
 
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import net.burningtnt.bcigenerator.arguments.JavaDescriptor;
-import net.burningtnt.bcigenerator.arguments.JavaDescriptorArgumentType;
+import net.burningtnt.bcigenerator.arguments.desc.JavaDescriptor;
+import net.burningtnt.bcigenerator.arguments.desc.JavaDescriptorArgumentType;
 import net.burningtnt.bcigenerator.insn.CommandBuilder;
 import net.burningtnt.bcigenerator.insn.IInsn;
 import org.objectweb.asm.Opcodes;

@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.burningtnt.bcigenerator.arguments;
+package net.burningtnt.bcigenerator.arguments.desc;
 
 import java.util.Objects;
 

@@ -1,4 +1,4 @@
-package net.burningtnt.bcigenerator.arguments;
+package net.burningtnt.bcigenerator.arguments.structure;
 
 import com.mojang.brigadier.LiteralMessage;
 import com.mojang.brigadier.StringReader;

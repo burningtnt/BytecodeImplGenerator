@@ -20,9 +20,9 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import net.burningtnt.bcigenerator.arguments.JavaDescriptor;
-import net.burningtnt.bcigenerator.arguments.JavaDescriptorArgumentType;
 import net.burningtnt.bcigenerator.arguments.LabelIDArgumentType;
+import net.burningtnt.bcigenerator.arguments.desc.JavaDescriptor;
+import net.burningtnt.bcigenerator.arguments.desc.JavaDescriptorArgumentType;
 import org.objectweb.asm.MethodVisitor;
 
 import java.util.Arrays;
@@ -65,13 +65,19 @@ public final class CommandBuilder {
     private static final ThreadLocalRandom ARGUMENT_NAME_RANDOM = ThreadLocalRandom.current();
     private static long anonymousArgumentGlobalIndex = 0;
 
+    private static String generateArgName() {
+        return String.format("net.burningtnt.bcigenerator.insn.CommandBuilder/%016x@%016x", ARGUMENT_NAME_RANDOM.nextLong(), anonymousArgumentGlobalIndex++);
+    }
+
     public static <A> LiteralArgumentBuilder<List<IInsn>> ofArgumentInsn(String op, ArgumentType<A> argumentType, Class<A> clazz, BiConsumer<MethodVisitor, A> consumer) {
-        String argumentName = String.format("CommandBuilderAnonymousArgument/%016X/%016X", ARGUMENT_NAME_RANDOM.nextLong(), anonymousArgumentGlobalIndex ++);
-        return ofLiteralCommand(op).then(
-                CommandBuilder.ofArgumentCommand(argumentName, argumentType).executes(CommandBuilder.execute(context ->
-                        mv -> consumer.accept(mv, context.getArgument(argumentName, clazz))
-                ))
-        );
+        return ofLiteralCommand(op).then(ofArgumentInsn(argumentType, clazz, consumer));
+    }
+
+    public static <A> RequiredArgumentBuilder<List<IInsn>, A> ofArgumentInsn(ArgumentType<A> argumentType, Class<A> clazz, BiConsumer<MethodVisitor, A> consumer) {
+        String argumentName = generateArgName();
+        return ofArgumentCommand(argumentName, argumentType).executes(execute(context ->
+                mv -> consumer.accept(mv, context.getArgument(argumentName, clazz))
+        ));
     }
 
     public static LiteralArgumentBuilder<List<IInsn>> ofLabelInsn(String op, BiConsumer<MethodVisitor, String> consumer) {

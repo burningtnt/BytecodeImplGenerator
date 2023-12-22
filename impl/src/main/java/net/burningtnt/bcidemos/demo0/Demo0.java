@@ -24,7 +24,7 @@ public final class Demo0 {
     @BytecodeImpl({
             "LABEL METHOD_HEAD",
             "GETSTATIC Ljava/lang/System;out:Ljava/io/PrintStream;",
-            "LDC STRING \"Hello BCIG!\"",
+            "LDC (STRING \"Hello BCIG!\")",
             "INVOKEVIRTUAL Ljava/io/PrintStream;println(Ljava/lang/String;)V",
             "LABEL METHOD_TAIL",
             "RETURN",
