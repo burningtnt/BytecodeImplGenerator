@@ -39,7 +39,7 @@ public final class BytecodeMethodVisitor extends MethodVisitor {
     @Override
     public AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
         if (TARGET_DESC.equals(descriptor)) {
-            this.mv = null;
+            this.mv = new BytecodeMethodVerifier();
             return new BytecodeImplAnnotationVisitor(insnList);
         }
         return super.visitAnnotation(descriptor, visible);
@@ -47,7 +47,7 @@ public final class BytecodeMethodVisitor extends MethodVisitor {
 
     @Override
     public void visitCode() {
-        if (this.mv == null) {
+        if (this.mv instanceof BytecodeMethodVerifier) {
             CommandParser.write(this.raw, this.insnList);
         } else {
             super.visitCode();

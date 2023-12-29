@@ -5,10 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0ee6a74a-7b6e-4bb1-b161-18dc9d85aa2e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/impl/src/main/java/net/burningtnt/bcidemos/demo4/Demo4.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/impl/src/test/java/net/burningtn/bcidemos/DemoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/impl/src/test/java/net/burningtn/bcidemos/DemoTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/insn/holders/MethodHolder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/burningtnt/bcigenerator/insn/holders/MethodHolder.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,7 +74,7 @@
   "keyToString": {
     "ASKED_ADD_EXTERNAL_FILES": "true",
     "Gradle.BytecodeImplGenerator [:BytecodeImplGenerator.main()].executor": "Debug",
-    "Gradle.BytecodeImplGenerator [build].executor": "Debug",
+    "Gradle.BytecodeImplGenerator [build].executor": "Run",
     "Gradle.BytecodeImplGenerator [test].executor": "Debug",
     "Gradle.BytecodeImplGenerator:impl [:impl:Demo0.main()].executor": "Run",
     "Gradle.BytecodeImplGenerator:impl [:impl:Demo1.main()].executor": "Run",
@@ -132,20 +129,7 @@
       <recent name="net.burningtnt.bcigenerator.insn.holders" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Demo4">
-    <configuration name="Demo4" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="net.burningtnt.bcidemos.demo4.Demo4" />
-      <module name="BytecodeImplGenerator.impl.main" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="net.burningtnt.bcidemos.demo4.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="Gradle.BytecodeImplGenerator [build]">
     <configuration name="Debug BCI" type="CompoundRunConfigurationType">
       <toRun name="BytecodeImplGenerator [test]  [Internal]" type="GradleRunConfiguration" />
       <toRun name="Debug BCI [Internal]" type="Remote" />
@@ -234,18 +218,12 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Application.Demo4" />
       <item itemvalue="Compound.Debug BCI" />
       <item itemvalue="Gradle.BytecodeImplGenerator [build]" />
       <item itemvalue="Gradle.BytecodeImplGenerator [debug]" />
       <item itemvalue="Gradle.DemoTest" />
       <item itemvalue="Remote JVM Debug.Debug BCI [Internal]" />
     </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Application.Demo4" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -272,7 +250,7 @@
       <workItem from="1702637866630" duration="5947000" />
       <workItem from="1702644770498" duration="8803000" />
       <workItem from="1702800092386" duration="7790000" />
-      <workItem from="1703240405194" duration="10204000" />
+      <workItem from="1703240405194" duration="10685000" />
     </task>
     <servers />
   </component>
