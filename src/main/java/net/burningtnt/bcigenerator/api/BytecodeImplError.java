@@ -19,6 +19,6 @@ package net.burningtnt.bcigenerator.api;
  */
 public class BytecodeImplError extends IncompatibleClassChangeError {
     public BytecodeImplError() {
-        super("This method should be implemented by BytecodeImplGenerator. However, it's not processed. Please check your build tool!");
+        super("This method should be implemented by BytecodeImplGenerator. However, it hadn't been processed. Please check your build chain!");
     }
 }
