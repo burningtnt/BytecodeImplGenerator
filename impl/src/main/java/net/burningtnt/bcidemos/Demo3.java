@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.burningtnt.bcidemos.demo3;
+package net.burningtnt.bcidemos;
 
 import net.burningtnt.bcigenerator.api.BytecodeImpl;
 import net.burningtnt.bcigenerator.api.BytecodeImplError;

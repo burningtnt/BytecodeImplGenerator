@@ -12,46 +12,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.burningtnt.bcidemos.demo2;
+package net.burningtnt.bcidemos;
 
 import net.burningtnt.bcigenerator.api.BytecodeImpl;
 import net.burningtnt.bcigenerator.api.BytecodeImplError;
 
-public final class Demo2 {
-    private Demo2() {
+import java.nio.file.Path;
+
+public final class Demo1 {
+    private Demo1() {
     }
 
     @BytecodeImpl({
             "LABEL METHOD_HEAD",
-            "ILOAD 0",
-            "TABLESWITCH 0 [ SWITCH_0 SWITCH_1 ] SWITCH_DEFAULT",
-
-            "LABEL SWITCH_0",
-            "FRAME SAME",
-            "SIPUSH 200",
-            "IRETURN",
-
-            "LABEL SWITCH_1",
-            "FRAME SAME",
-            "SIPUSH 201",
-            "IRETURN",
-
-            "LABEL SWITCH_DEFAULT",
-            "FRAME SAME",
-            "SIPUSH 404",
-            "IRETURN",
-
-            "LABEL END_SWITCH",
-            "LOCALVARIABLE value I METHOD_HEAD END_SWITCH 0",
-            "MAXS 1 1"
+            "ALOAD 0",
+            "ALOAD 1",
+            "INVOKEINTERFACESTATIC Ljava/nio/file/Path;of(Ljava/lang/String;[Ljava/lang/String;)Ljava/nio/file/Path;",
+            "LABEL METHOD_TAIL",
+            "ARETURN",
+            "LOCALVARIABLE first Ljava/lang/String; METHOD_HEAD METHOD_TAIL 0",
+            "LOCALVARIABLE further [Ljava/lang/String; METHOD_HEAD METHOD_TAIL 1",
+            "MAXS 2 2"
     })
-    private static int doTableSwitch(int value) {
+    private static Path getPath(String first, String... further) {
         throw new BytecodeImplError();
     }
 
     public static void main(String[] args) {
-        System.out.println(doTableSwitch(0));
-        System.out.println(doTableSwitch(1));
-        System.out.println(doTableSwitch(8));
+        System.out.println(getPath("First", "Second", "Third").toString());
     }
 }

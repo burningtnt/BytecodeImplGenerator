@@ -12,42 +12,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.burningtnt.bcidemos.demo4;
+package net.burningtnt.bcidemos;
 
 import net.burningtnt.bcigenerator.api.BytecodeImpl;
 import net.burningtnt.bcigenerator.api.BytecodeImplError;
 
-import java.lang.invoke.CallSite;
-import java.lang.invoke.ConstantCallSite;
-import java.lang.invoke.MethodHandles;
-import java.lang.invoke.MethodType;
-
-public final class Demo4 {
-    private Demo4() {
+public final class Demo0 {
+    private Demo0() {
     }
 
     @BytecodeImpl({
             "LABEL METHOD_HEAD",
-
-            "INVOKEDYNAMIC Lnet/burningtnt/bcidemos/demo4/Demo4;lambdaFunction()V Lnet/burningtnt/bcidemos/demo4/Demo4;bootstrap(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;",
-
+            "GETSTATIC Ljava/lang/System;out:Ljava/io/PrintStream;",
+            "LDC (STRING \"Hello BCIG!\")",
+            "INVOKEVIRTUAL Ljava/io/PrintStream;println(Ljava/lang/String;)V",
             "LABEL METHOD_TAIL",
             "RETURN",
-            "MAXS 1 1"
+            "MAXS 2 0"
     })
-    private static void invokeDynamic() {
+    private static void method() {
         throw new BytecodeImplError();
     }
 
     public static void main(String[] args) {
-        invokeDynamic();
-    }
-
-    private static void hello() {
-        System.out.println("Hello!");
-    }
-
-    public static CallSite bootstrap(MethodHandles.Lookup lookup, String name, MethodType type) throws Throwable {
-        return new ConstantCallSite(lookup.findStatic(Demo4.class, "hello", MethodType.methodType(void.class)));
+        method();
     }
 }

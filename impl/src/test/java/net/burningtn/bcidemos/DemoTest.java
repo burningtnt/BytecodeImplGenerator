@@ -1,10 +1,6 @@
 package net.burningtn.bcidemos;
 
-import net.burningtnt.bcidemos.demo0.Demo0;
-import net.burningtnt.bcidemos.demo1.Demo1;
-import net.burningtnt.bcidemos.demo2.Demo2;
-import net.burningtnt.bcidemos.demo3.Demo3;
-import net.burningtnt.bcidemos.demo4.Demo4;
+import net.burningtnt.bcidemos.*;
 import org.junit.jupiter.api.Test;
 
 public final class DemoTest {
@@ -28,7 +24,13 @@ public final class DemoTest {
         Demo3.main(new String[0]);
     }
 
+    @Test
     public void demo4() {
         Demo4.main(new String[0]);
+    }
+
+    @Test
+    public void demo5() {
+        Demo5.main(new String[0]);
     }
 }

@@ -64,12 +64,16 @@ public final class ControlFlowHolder {
     }
 
     public static void verify(MethodVisitor mv) {
-        for (Map.Entry<String, ManagedLabel> entry : labelCache.get(mv).entrySet()) {
+        Map<String, ControlFlowHolder.ManagedLabel> map = labelCache.remove(mv);
+        if (map == null) {
+            return;
+        }
+
+        for (Map.Entry<String, ManagedLabel> entry : map.entrySet()) {
             if (!entry.getValue().defined) {
                 throw new IllegalStateException(String.format("Label '%s' is used but not defined.", entry.getKey()));
             }
         }
-        labelCache.get(mv).clear();
     }
 
     public static List<LiteralArgumentBuilder<List<IInsn>>> init() {

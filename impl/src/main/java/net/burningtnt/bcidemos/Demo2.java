@@ -12,29 +12,46 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.burningtnt.bcidemos.demo0;
+package net.burningtnt.bcidemos;
 
 import net.burningtnt.bcigenerator.api.BytecodeImpl;
 import net.burningtnt.bcigenerator.api.BytecodeImplError;
 
-public final class Demo0 {
-    private Demo0() {
+public final class Demo2 {
+    private Demo2() {
     }
 
     @BytecodeImpl({
             "LABEL METHOD_HEAD",
-            "GETSTATIC Ljava/lang/System;out:Ljava/io/PrintStream;",
-            "LDC (STRING \"Hello BCIG!\")",
-            "INVOKEVIRTUAL Ljava/io/PrintStream;println(Ljava/lang/String;)V",
-            "LABEL METHOD_TAIL",
-            "RETURN",
-            "MAXS 2 0"
+            "ILOAD 0",
+            "TABLESWITCH 0 [ SWITCH_0 SWITCH_1 ] SWITCH_DEFAULT",
+
+            "LABEL SWITCH_0",
+            "FRAME SAME",
+            "SIPUSH 200",
+            "IRETURN",
+
+            "LABEL SWITCH_1",
+            "FRAME SAME",
+            "SIPUSH 201",
+            "IRETURN",
+
+            "LABEL SWITCH_DEFAULT",
+            "FRAME SAME",
+            "SIPUSH 404",
+            "IRETURN",
+
+            "LABEL END_SWITCH",
+            "LOCALVARIABLE value I METHOD_HEAD END_SWITCH 0",
+            "MAXS 1 1"
     })
-    private static void method() {
+    private static int doTableSwitch(int value) {
         throw new BytecodeImplError();
     }
 
     public static void main(String[] args) {
-        method();
+        System.out.println(doTableSwitch(0));
+        System.out.println(doTableSwitch(1));
+        System.out.println(doTableSwitch(8));
     }
 }

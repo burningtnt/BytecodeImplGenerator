@@ -12,33 +12,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.burningtnt.bcidemos.demo1;
+package net.burningtnt.bcidemos;
 
 import net.burningtnt.bcigenerator.api.BytecodeImpl;
 import net.burningtnt.bcigenerator.api.BytecodeImplError;
 
-import java.nio.file.Path;
+import java.lang.invoke.CallSite;
+import java.lang.invoke.ConstantCallSite;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
 
-public final class Demo1 {
-    private Demo1() {
+public final class Demo4 {
+    private Demo4() {
     }
 
     @BytecodeImpl({
             "LABEL METHOD_HEAD",
-            "ALOAD 0",
-            "ALOAD 1",
-            "INVOKEINTERFACESTATIC Ljava/nio/file/Path;of(Ljava/lang/String;[Ljava/lang/String;)Ljava/nio/file/Path;",
+
+            "INVOKEDYNAMIC Lnet/burningtnt/bcidemos/Demo4;lambdaFunction()V Lnet/burningtnt/bcidemos/Demo4;bootstrap(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;",
+
             "LABEL METHOD_TAIL",
-            "ARETURN",
-            "LOCALVARIABLE first Ljava/lang/String; METHOD_HEAD METHOD_TAIL 0",
-            "LOCALVARIABLE further [Ljava/lang/String; METHOD_HEAD METHOD_TAIL 1",
-            "MAXS 2 2"
+            "RETURN",
+            "MAXS 1 1"
     })
-    private static Path getPath(String first, String... further) {
+    private static void invokeDynamic() {
         throw new BytecodeImplError();
     }
 
     public static void main(String[] args) {
-        System.out.println(getPath("First", "Second", "Third").toString());
+        invokeDynamic();
+    }
+
+    private static void hello() {
+        System.out.println("Hello!");
+    }
+
+    public static CallSite bootstrap(MethodHandles.Lookup lookup, String name, MethodType type) throws Throwable {
+        return new ConstantCallSite(lookup.findStatic(Demo4.class, "hello", MethodType.methodType(void.class)));
     }
 }
